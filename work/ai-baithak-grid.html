@@ -1,0 +1,317 @@
+<title>AI Baithak Grid Covers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: a two-phone before/after of the profile, a short read of what the grid shows,
+   then one card per post (cover tile, what it says, who posted it). Tiles use only the
+   brand's three colors: warm black, orange, off-white. */
+:root{
+  --bg:#F6F3EE; --surface:#FFFFFF; --fg:#1C1A1F; --muted:#6A655D; --line:#E2DCD0;
+  --brand:#E8780A; --brand-text:#A84E00; --chip:#ECE7DE;
+  --shadow:0 1px 2px rgba(20,16,10,.06),0 10px 28px rgba(20,16,10,.08);
+  --font-d:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-b:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --K:#130D07; --O:#FF9A1E; --W:#F5F4F0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0E12; --surface:#18171C; --fg:#F2EFE9; --muted:#A39E95; --line:#2C2A31;
+    --brand:#FF9A1E; --brand-text:#FFAE4D; --chip:#201F25; --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0E12; --surface:#18171C; --fg:#F2EFE9; --muted:#A39E95; --line:#2C2A31;
+  --brand:#FF9A1E; --brand-text:#FFAE4D; --chip:#201F25; --shadow:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--fg);font:400 15px/1.55 var(--font-b);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 72px;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:1160px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+header{padding-block:44px 8px}
+.eyebrow{font:600 12px/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;color:var(--brand-text);margin:0 0 14px}
+h1{font:700 clamp(30px,5.2vw,48px)/1.08 var(--font-d);margin:0 0 16px;text-wrap:balance;max-width:20ch}
+.lede{max-width:66ch;color:var(--muted);font-size:16px;margin:0 0 10px}
+.lede b{color:var(--fg);font-weight:600}
+h2.sec{font:700 12px/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:56px 0 18px}
+.hint{font-size:12.5px;color:var(--muted);margin:14px 0 0;max-width:70ch}
+
+/* ---------- two phones ---------- */
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),400px));justify-content:center;gap:36px 40px}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.cap{font:600 13px/1.3 var(--font-d);text-align:center}
+.cap small{display:block;font:400 12.5px var(--font-b);color:var(--muted);margin-top:2px}
+.phone{width:100%;background:#000;color:#F5F5F5;border-radius:26px;overflow:hidden;box-shadow:0 0 0 1px rgba(128,128,128,.3),var(--shadow)}
+.ptop{display:flex;justify-content:space-between;align-items:center;padding:16px 18px 10px;font:600 16px/1 var(--font-b)}
+.prof{display:flex;align-items:center;gap:16px;padding:4px 18px 0}
+.av{flex:none;width:76px;height:76px;border-radius:50%;background:#130D07;border:3px solid #FF9A1E;display:grid;place-items:center}
+.av svg{width:34px;height:34px;fill:#fff;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.av svg path{fill:none}
+.av svg circle{fill:#FF9A1E;stroke:none}
+.stats{flex:1;display:flex;justify-content:space-around;text-align:center;min-width:0}
+.stats b{display:block;font:700 16px/1.2 var(--font-b)}
+.stats span{font:400 12.5px/1.2 var(--font-b);color:#A8A8A8}
+.bio{padding:12px 18px 0;font:400 13.5px/1.45 var(--font-b)}
+.bio b{display:block;font-weight:600}
+.bio .cat{color:#A8A8A8}
+.bio a{color:#E0F1FF;text-decoration:none}
+.btns{display:flex;gap:8px;padding:12px 18px 0}
+.btns span{flex:1;text-align:center;background:#262626;border-radius:8px;padding:7px 0;font:600 13px/1.2 var(--font-b)}
+.hls{display:flex;gap:14px;overflow-x:auto;padding:14px 18px 12px;scrollbar-width:none}
+.hls::-webkit-scrollbar{display:none}
+.hl{flex:none;width:62px;text-align:center;font:400 11px/1.25 var(--font-b);color:#DDD}
+.hc{width:60px;height:60px;border-radius:50%;margin:0 auto 5px;display:grid;place-items:center;font:700 19px/1 var(--font-d)}
+.hc svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hc.old{background:#130D07;border:2.5px solid #FF9A1E}
+.hc.old svg{fill:#fff;stroke:#fff;stroke-width:3;width:26px;height:26px}
+.hc.old svg path{fill:none}
+.hc.old svg circle{fill:#FF9A1E;stroke:none}
+.hc small{font:700 8px/1 var(--font-d);letter-spacing:.12em;display:block;margin-top:2px}
+.hc.cK{background:var(--K);color:#fff;box-shadow:0 0 0 1.5px #3a3128}
+.hc.cO{background:var(--O);color:var(--K)}
+.hc.cW{background:var(--W);color:var(--K)}
+.tabs{border-top:1px solid #262626;display:flex;justify-content:center;padding:11px 0 10px}
+.tabs svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+
+/* ---------- new cover tiles ---------- */
+.t{container-type:inline-size;position:relative;aspect-ratio:4/5;overflow:hidden;font-family:var(--font-d);isolation:isolate}
+.t.cK{background:var(--K);color:#fff}
+.t.cO{background:var(--O);color:var(--K)}
+.t.cW{background:var(--W);color:var(--K)}
+.ti{position:relative;z-index:2;height:100%;padding:8.5cqw;display:flex;flex-direction:column;gap:4cqw}
+.kr{display:flex;justify-content:space-between;align-items:center;gap:3cqw}
+.kk{font:700 5.2cqw/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.dt{font:600 4.4cqw/1 var(--font-d);letter-spacing:.08em;opacity:.7;white-space:nowrap}
+.cK .kk{color:var(--O)} .cO .kk{color:var(--K)} .cW .kk{color:#E08200}
+.t h5{margin:auto 0;font:700 var(--fs,12.4cqw)/1.1 var(--font-d);letter-spacing:-.005em}
+.tb{height:2.4cqw;width:28cqw;border-radius:2cqw;background:var(--O)}
+.cO .tb,.cW .tb{background:var(--K)}
+.t.hp h5{margin:0;max-width:var(--mw,56cqw)}
+.t.hp .tb{margin-top:auto}
+.t.duo .tb,.t.leaders .tb{visibility:hidden}
+.tph{position:absolute;z-index:1;background-repeat:no-repeat;background-size:contain;background-position:bottom center}
+.t-robot{right:-3cqw;bottom:0;width:60cqw;height:61.3cqw}
+.t-maryam{right:0;bottom:0;width:46cqw;height:85.7cqw}
+.t-w{left:0;bottom:0;width:26cqw;height:52.7cqw}
+.t-m{right:0;bottom:0;width:20cqw;height:34.6cqw}
+.t-leaders{left:3cqw;bottom:0;width:96cqw;height:77.4cqw;mix-blend-mode:lighten}
+
+/* ---------- current tiles: crops of the real grid ---------- */
+.old{position:relative;aspect-ratio:4/5;overflow:hidden;background:#111}
+.old img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ---------- read-out ---------- */
+.stat3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:6px}
+.sx{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.sx b{display:block;font:700 34px/1 var(--font-d);margin-bottom:6px}
+.sx p{margin:0;font-size:14px;color:var(--muted)}
+.sx .sw{display:flex;gap:4px;margin-top:10px}
+.sx .sw i{width:20px;height:14px;border-radius:4px;display:block;border:1px solid rgba(128,128,128,.3)}
+.read{max-width:70ch;margin:18px 0 0;color:var(--fg)}
+.read p{margin:0 0 10px}
+
+/* ---------- post cards ---------- */
+.plist{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px}
+.pc{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.pc .th{flex:none;width:132px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 1px rgba(128,128,128,.3);align-self:flex-start}
+.pb{min-width:0;display:flex;flex-direction:column;gap:6px}
+.pm{font:500 12px/1.3 var(--font-b);color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 8px}
+.pm .n{font:700 12px var(--font-d);color:var(--brand-text)}
+.pb h3{margin:0;font:600 15.5px/1.25 var(--font-d)}
+.pb p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.cp{font:500 11.5px/1 var(--font-b);padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:var(--chip);color:var(--fg);white-space:nowrap}
+.cp.off{border-color:var(--brand);color:var(--brand-text);background:transparent}
+.pb a.open{font:600 12.5px/1 var(--font-b);color:var(--brand-text);text-decoration:none;margin-top:4px;width:max-content}
+.pb a.open:hover{text-decoration:underline}
+@media (max-width:420px){.pc{flex-direction:column}.pc .th{width:100%;max-width:200px}}
+
+/* ---------- using the covers ---------- */
+.use{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px 36px}
+.use h3{font:600 15px/1.3 var(--font-d);margin:0 0 6px}
+.use p{margin:0;font-size:14px;color:var(--muted);max-width:46ch}
+.foot-note{margin-top:36px;font-size:12.5px;color:var(--muted);max-width:74ch}
+/*__PH_CSS__*/
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-mark" viewBox="0 0 24 24"><circle cx="12" cy="3.4" r="2.2"/><path d="M4.5 21.5 12 8l7.5 13.5"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4.5v1.5A3.5 3.5 0 0 0 8 11M16 6h3.5v1.5A3.5 3.5 0 0 1 16 11M12 13v4M8.5 20h7M10 17h4"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9.3 4v16M14.7 4v16M4 9.3h16M4 14.7h16"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">AI Baithak · Instagram grid covers</p>
+    <h1>One look for the whole grid</h1>
+    <p class="lede">I read your 20 newest posts, partner posts included, and made a cover tile for each one in your black, orange and white style. The tiles follow the feed design you shared, with the same fonts, bars and cut-outs.</p>
+    <p class="lede">Below you can see your profile as it looks now and with the new covers, then every post with what it says.</p>
+  </header>
+
+  <h2 class="sec">Your profile, now and with covers</h2>
+  <div class="phones" id="phones"></div>
+  <p class="hint">The left grid is cropped from screenshots of your real profile, so the thumbnails are small and soft. Numbers are as of 24 Nov 2026.</p>
+
+  <h2 class="sec">What the grid shows</h2>
+  <div class="stat3" id="stats"></div>
+  <div class="read" id="read"></div>
+
+  <h2 class="sec">Post by post</h2>
+  <div class="plist" id="plist"></div>
+
+  <h2 class="sec">Using the covers</h2>
+  <div class="use">
+    <div><h3>New posts first</h3><p>Instagram does not let you swap the image on a published photo post. Use a cover tile as the first slide of a new carousel, with the poster or photos as the next slides. On a reel you can change the cover after posting.</p></div>
+    <div><h3>Partner posts</h3><p>Send the partner your cover tile and ask them to use it as slide one when they co-post. Posts published from their account can only be changed by them.</p></div>
+    <div><h3>Keep the color order</h3><p>Tiles run black, white, orange down the diagonal, so no two neighbors match. A new post takes the color that differs from the tile above and the tile to its left.</p></div>
+    <div><h3>Highlights match too</h3><p>The highlight covers use the same three colors in the same order, so the top of the profile and the grid read as one set.</p></div>
+  </div>
+
+  <p class="foot-note">Captions, dates and counts were read from the public posts on 24 Nov 2026 and will change. Like counts were not available for two partner posts. The logo is redrawn as a placeholder, and the current thumbnails are screenshot crops. The people and the robot are cut out of screenshots of your own posts, so they look soft at this size.</p>
+</div>
+
+<script>
+(function(){
+/*__NOW_JS__*/
+  var P = [
+    {n:1,  dt:'17 SEP', date:'17 Sep 2026', type:'Team',        k:'TEAM',      t:'Meet the Leadership Council',          c:'K', ph:'leaders', fs:10.5, mw:90, look:'brand',  blob:1, by:'ai_baithak', href:'/ai_baithak/p/DdZcRG9Do0w/', likes:94, com:17, pin:1,
+      h:'Leadership Council introduction',
+      says:'Introduces the four leaders behind the community: Kamran Sikandar (Founder and Executive Director), Talha Siddiqui (Growth and Strategic Partner), Abdullah Iqbal (Technical Director) and Mahmood Ahmad (Managing Director). Ends by asking which AI project or bot people want to ship next.'},
+    {n:2,  dt:'5 AUG',  date:'5 Aug 2026',  type:'Reel',        k:'REEL',      t:'How to join AI Baithak',               c:'W', look:'photo', by:'ai_baithak', href:'/ai_baithak/reel/Dbp_6_UiZvr/', likes:92, com:26, pin:1,
+      h:'Reel: how to join AI Baithak',
+      says:'Answers the question people ask most. Step one, fill the form from the bio. Step two, join the WhatsApp community from the bio. Step three, get every upcoming event, walk, session and meetup there.'},
+    {n:3,  dt:'15 NOV', date:'15 Nov 2026', type:'Event',       k:'EVENT',     t:'21 Nov Mega Project Presentation',     c:'O', fs:10.4, look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DfxI3HdinMj/', likes:46, com:7,
+      h:'Mega Project Presentation invite',
+      says:'Invites learners to the Amal Academy Mega Project Presentation on Saturday 21 November 2026, 9:00 AM to 1:00 PM at NED University, Karachi. Alumni show their projects, and AI Baithak is the Outreach Partner.'},
+    {n:4,  dt:'15 NOV', date:'15 Nov 2026', type:'Partnership', k:'PARTNER',   t:'Outreach partner of Amal Academy',     c:'W', fs:11.6, look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DfwsqSbO7gX/', likes:42, com:8,
+      h:'Amal Academy partnership',
+      says:'Announces the collaboration with Amal Academy Batch 383 as Outreach Partner. The message is that learning means more when people come together. Tagline: Learn Together. Build Together.'},
+    {n:5,  dt:'14 NOV', date:'14 Nov 2026', type:'Meme',        k:'MEME',      t:'Jensen Huang wants to join AI Baithak?', c:'O', fs:11.4, look:'brand', by:'ai_baithak', href:'/ai_baithak/p/Dfuj8FdOwJw/', likes:38, com:22,
+      h:'Jensen Huang meme',
+      says:'A joke post imagining Jensen Huang leaving NVIDIA to join the community. It is written to start a conversation, and it drew 22 comments.'},
+    {n:6,  dt:'13 NOV', date:'13 Nov 2026', type:'Spotlight',   k:'SPOTLIGHT', t:'Meet our team lead',                   c:'K', ph:'maryam', fs:9.4, mw:52, look:'brand', by:'ai_baithak', href:'/ai_baithak/p/Dfrkt_qR_eF/', likes:65, com:20,
+      h:'Maryam Fatima Asad spotlight',
+      says:'Spotlights Maryam Fatima Asad, who leads the female volunteer team. She is praised for guiding the team, inspiring collaboration and making sure every effort counts.'},
+    {n:7,  dt:'8 NOV',  date:'8 Nov 2026',  type:'Partner post', k:'COLLAB',   t:'Freelancing Fest: a win-win',          c:'O', fs:10.4, look:'red', by:'freelancingsocietyiu', href:'/freelancingsocietyiu/p/DffHARTOZYY/', likes:null, com:null,
+      h:'Freelancing Fest: win-win',
+      says:'Freelancing Fest IU shows what every participant gets: a certificate, real-world exposure and a chance at cash prizes. It runs 11 and 12 November at Iqra University, EDC Campus, Karachi. Registration is by QR code or the link in bio.'},
+    {n:8,  dt:'30 OCT', date:'30 Oct 2026', type:'Partner post', k:'COLLAB',   t:'Freelance Fest x AI Baithak',          c:'K', fs:11.6, look:'red', by:'iu_spectrum', href:'/iu_spectrum/p/DfHgNWEO_Z2/', likes:null, com:null,
+      h:'IU Spectrum outreach partner',
+      says:'IU Spectrum welcomes AI Baithak as Outreach Partner for Freelance Fest, part of IU Spectrum 2.0. A promo code gives 20% off registration for the 11 to 12 November event at Iqra University.'},
+    {n:9,  dt:'28 OCT', date:'28 Oct 2026', type:'Recruitment', k:'JOIN US',   t:'We are extending our core teams',      c:'W', look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DfCmOu4uhYI/', likes:57, com:21,
+      h:'Core teams recruitment',
+      says:'Opens applications for six volunteer teams: Content Shooting, Event and Operations, Marketing, Creative and Design, Social Media and Video Editing. In person in Karachi, no joining fee, apply on the website.'},
+    {n:10, dt:'27 OCT', date:'27 Oct 2026', type:'Meme',        k:'TEAMWORK',  t:'Different skills, same goal',          c:'W', ph:'duo', fs:9.4, mw:56, look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DfAObeIupmS/', likes:73, com:46,
+      h:'Zaryab and Abu Bakr meme',
+      says:'A community meme. Zaryab wants a place on the team and Abu Bakar has no problem with it, so the post asks whether the community should make it happen. It got the most comments of the 20 (46).'},
+    {n:11, dt:'26 OCT', date:'26 Oct 2026', type:'Workshop',    k:'WORKSHOP',  t:'LinkedIn Optimization Workshop',       c:'O', fs:10.4, look:'blue', by:'asmeszabist', href:'/asmeszabist/p/De9YQV5IXgp/', likes:63, com:12,
+      h:'LinkedIn Optimization Workshop',
+      says:'ASME SZABIST and AI Baithak present a hands-on LinkedIn profile workshop on Thursday 29 October, 3:00 to 6:00 PM in Seminar Hall 99. It includes interactive activities and an e-certificate, with free entry.'},
+    {n:12, dt:'8 OCT',  date:'8 Oct 2026',  type:'Recap',       k:'RECAP',     t:'The moments continue',                 c:'K', look:'photo', by:'ai_baithak', href:'/ai_baithak/p/DeOzmUyjnuh/', likes:76, com:3,
+      h:'Build Your First AI Agent recap',
+      says:'More photos from the Build Your First AI Agent session, thanking everyone who came. Credits the venue partner Colabs and the photographer.'},
+    {n:13, dt:'5 OCT',  date:'5 Oct 2026',  type:'Recap',       k:'RECAP',     t:'Thank you, Build Your First AI Agent', c:'O', fs:11, look:'photo', by:'ai_baithak', href:'/ai_baithak/p/DeHxMkBDiZk/', likes:148, com:17,
+      h:'Thank you, Build Your First AI Agent',
+      says:'A thank-you with a group photo for everyone who joined the session, on how AI agents work and how they automate tasks. Thanks again to Colabs and the photographer. 148 likes, the most on your own account in this set.'},
+    {n:14, dt:'30 SEP', date:'30 Sep 2026', type:'Workshop',    k:'WORKSHOP',  t:'Build your first AI agent',            c:'K', ph:'robot', fs:9.4, mw:56, look:'brand', by:'ai_baithak', href:'/ai_baithak/p/Dd63zIEuBgT/', likes:40, com:5,
+      h:'Build Your First AI Agent poster',
+      says:'Promotes the hands-on session on 4 October, 2:45 to 6:00 PM at Colabs DHA. The pitch is to move from using AI to building with AI and leave with your first AI agent.'},
+    {n:15, dt:'28 SEP', date:'28 Sep 2026', type:'Event',       k:'EVENT',     t:'Karachi Youth Summit 2026',            c:'W', fs:11.6, look:'teal', by:'ai_baithak', href:'/ai_baithak/p/Dd0ypqWDkSI/', likes:128, com:18,
+      h:'Karachi Youth Summit partnership',
+      says:'AI Baithak joins Karachi Youth Summit 2026 as a Collaborative Partner. The summit is on 29 September at Expo Centre Karachi, Hall 06, with free entry. Theme: Born to Lead.'},
+    {n:16, dt:'9 SEP',  date:'9 Sep 2026',  type:'Announcement', k:'REBRAND',  t:'Same energy. New look.',               c:'K', look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DdEsMEoiA0r/', likes:72, com:37,
+      h:'Rebrand announcement',
+      says:'Introduces the new AI Baithak identity. Same community-driven energy, a fresh look and a bigger vision for the AI community in Karachi.'},
+    {n:17, dt:'7 SEP',  date:'7 Sep 2026',  type:'Partner post', k:'COLLAB',   t:'Beyond ChatGPT at KU',                 c:'W', fs:11.6, look:'photo', by:'uok_acs', href:'/uok_acs/p/DdBGYjvDLdx/', likes:128, com:15,
+      h:'Beyond ChatGPT workshop',
+      says:'The University of Karachi Arts and Culture Society describes Beyond ChatGPT, an AI workshop held with AI Baithak. It names the speakers and host and covers AI tools, automation, creativity and the future of work.'},
+    {n:18, dt:'7 SEP',  date:'7 Sep 2026',  type:'Partner post', k:'RECAP',    t:'The Beyond ChatGPT audience',          c:'O', fs:11.4, look:'photo', by:'uok_acs', href:'/uok_acs/p/Dc-xT-4DG2U/', likes:264, com:8,
+      h:'Beyond ChatGPT audience photos',
+      says:'A photo carousel of the students who filled the room at Beyond ChatGPT. It has the most likes of the 20 posts (264).'},
+    {n:19, dt:'4 SEP',  date:'4 Sep 2026',  type:'Recap',       k:'RECAP',     t:'Thank you, Beyond ChatGPT',            c:'O', fs:11.6, look:'photo', by:'ai_baithak', href:'/ai_baithak/p/Dc38HuwjtXn/', likes:206, com:37,
+      h:'Thank you, Beyond ChatGPT',
+      says:'Thanks everyone who joined Beyond ChatGPT for their presence, energy and curiosity. 206 likes and 37 comments.'},
+    {n:20, dt:'1 SEP',  date:'1 Sep 2026',  type:'Event update', k:'UPDATE',   t:'Check your mail: entries confirmed',   c:'K', look:'purple', by:'ai_baithak', href:'/ai_baithak/p/DcwWOt3uXiO/', likes:54, com:1,
+      h:'Beyond ChatGPT confirmation emails',
+      says:'Confirmation emails have gone to shortlisted candidates for Beyond ChatGPT. The email is the entry pass, and only shortlisted people get in. The event is 3 September, 10:00 AM to 4:30 PM at the Chinese Teacher Memorial Auditorium, University of Karachi.'}
+  ];
+
+  var LOOK = {brand:'Your colors', red:'Red and black', blue:'Blue and white', teal:'Teal and white', purple:'Purple and white', photo:'Photo'};
+
+  function mark(){ return '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mark"/></svg>'; }
+
+  var TPH = {
+    leaders:'<div class="tph t-leaders ph-leaders"></div>',
+    maryam:'<div class="tph t-maryam ph-maryam"></div>',
+    robot:'<div class="tph t-robot ph-robot"></div>',
+    duo:'<div class="tph t-w ph-woman"></div><div class="tph t-m ph-man"></div>'
+  };
+
+  function tileNew(p){
+    var style = p.fs ? ' style="--fs:'+p.fs+'cqw'+(p.mw?';--mw:'+p.mw+'cqw':'')+'"' : (p.mw ? ' style="--mw:'+p.mw+'cqw"' : '');
+    var cls = 't c'+p.c + (p.ph ? ' hp '+p.ph : '');
+    return '<div class="'+cls+'"'+style+'><div class="ti"><div class="kr"><span class="kk">'+p.k+'</span><span class="dt">'+p.dt+'</span></div><h5>'+p.t+'</h5><div class="tb"></div></div>'+(p.ph?TPH[p.ph]:'')+'</div>';
+  }
+  function tileOld(p, i){
+    return '<div class="old"><img src="'+NOW[i]+'" alt="Current thumbnail of post '+p.n+'"></div>';
+  }
+
+  var HL = [['Achievements','trophy','cK'],['Session 6','6','cO'],["KYS '26",'KYS','cW'],['ACS x Ai baithak','ACS','cK'],['Session 5','5','cO'],['Session 4','4','cW'],['Session 3','3','cK']];
+  function hls(isNew){
+    return HL.map(function(h,i){
+      var inner;
+      if (!isNew) inner = '<div class="hc old"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mark"/></svg></div>';
+      else if (h[1] === 'trophy') inner = '<div class="hc '+h[2]+'"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-trophy"/></svg></div>';
+      else inner = '<div class="hc '+h[2]+'">'+h[1]+'</div>';
+      return '<div class="hl">'+inner+'<span>'+h[0]+'</span></div>';
+    }).join('');
+  }
+
+  function phone(isNew){
+    var tiles = P.map(function(p,i){ return isNew ? tileNew(p) : tileOld(p,i); }).join('');
+    return '<div class="col"><div class="phone">'+
+      '<div class="ptop"><span>ai_baithak</span><span>•••</span></div>'+
+      '<div class="prof"><div class="av">'+mark()+'</div><div class="stats"><div><b>57</b><span>posts</span></div><div><b>2,153</b><span>followers</span></div><div><b>4</b><span>following</span></div></div></div>'+
+      '<div class="bio"><b>AI Baithak | Pakistan</b><span class="cat">Community</span><br>Pakistan’s AI community For everyone<br>We don’t just learn AI. We build with it.<br>2 sessions a month. Real projects. Real…<br><a href="https://linktr.ee/aibaithak" target="_blank" rel="noopener">linktr.ee/aibaithak</a></div>'+
+      '<div class="btns"><span>Following</span><span>Message</span></div>'+
+      '<div class="hls">'+hls(isNew)+'</div>'+
+      '<div class="tabs"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-grid"/></svg></div>'+
+      '<div class="g">'+tiles+'</div></div>'+
+      '<div class="cap">'+(isNew ? 'With the new covers<small>Black, white and orange in one order</small>' : 'Now<small>Your first 20 posts, as they are</small>')+'</div></div>';
+  }
+  document.getElementById('phones').innerHTML = phone(false) + phone(true);
+
+  /* read-out */
+  var brand = P.filter(function(p){return p.look==='brand';}).length;
+  var photos = P.filter(function(p){return p.look==='photo';}).length;
+  var other = P.length - brand - photos;
+  document.getElementById('stats').innerHTML =
+    '<div class="sx"><b>'+brand+'</b><p>posts already in your black and orange look</p><div class="sw"><i style="background:#130D07"></i><i style="background:#FF9A1E"></i></div></div>'+
+    '<div class="sx"><b>'+other+'</b><p>posters in a partner’s own colors: red, blue, teal and purple</p><div class="sw"><i style="background:#B3161E"></i><i style="background:#5B46D6"></i><i style="background:#2F95A8"></i><i style="background:#3B1A7A"></i></div></div>'+
+    '<div class="sx"><b>'+photos+'</b><p>photo posts and reels with no brand color in the thumbnail</p><div class="sw"><i style="background:#A9B5BE"></i><i style="background:#8B7E74"></i><i style="background:#53417B"></i></div></div>';
+  document.getElementById('read').innerHTML =
+    '<p>Eleven of the 20 tiles break the black and orange rhythm, and partner content drives most of it. Five posts come from partner accounts in their own designs, and two more are partner posters you posted yourself.</p>'+
+    '<p>The posts with the most likes are recaps and partner events: 264, 206, 148 and 128. Your own announcements sit between 38 and 94. The new covers keep that content but give it one look.</p>';
+
+  /* cards */
+  document.getElementById('plist').innerHTML = P.map(function(p){
+    var num = (p.n < 10 ? '0' : '') + p.n;
+    var stat = p.likes === null ? 'Likes not available' : (p.likes + ' likes · ' + p.com + ' comments');
+    var off = p.look !== 'brand';
+    return '<article class="pc"><div class="th">'+tileNew(p)+'</div><div class="pb">'+
+      '<div class="pm"><span class="n">'+num+'</span><span>'+p.type+'</span><span>'+p.date+'</span>'+(p.pin?'<span>Pinned</span>':'')+'</div>'+
+      '<h3>'+p.h+'</h3><p>'+p.says+'</p>'+
+      '<div class="chips"><span class="cp'+(off?' off':'')+'">Now: '+LOOK[p.look]+'</span><span class="cp">by @'+p.by+'</span><span class="cp">'+stat+'</span></div>'+
+      '<a class="open" href="https://www.instagram.com'+p.href+'" target="_blank" rel="noopener">Open post ↗</a></div></article>';
+  }).join('');
+})();
+</script>

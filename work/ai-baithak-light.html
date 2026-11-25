@@ -1,0 +1,531 @@
+<title>AI Baithak Light Palettes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: sticky option chips, a five-card overview, then one long section per palette
+   (swatches, three sample posts, story covers, feed grid). The mockups carry their own
+   palette tokens (.pal-a ... .pal-e); the page chrome uses the neutral tokens below. */
+:root{
+  --bg:#F6F3EE; --surface:#FFFFFF; --fg:#1C1A1F; --muted:#6A655D; --line:#E2DCD0;
+  --brand:#E8780A; --brand-text:#A84E00; --chip:#ECE7DE;
+  --shadow:0 1px 2px rgba(20,16,10,.06),0 10px 28px rgba(20,16,10,.08);
+  --font-d:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-b:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0E12; --surface:#18171C; --fg:#F2EFE9; --muted:#A39E95; --line:#2C2A31;
+    --brand:#FF8F1F; --brand-text:#FFA94D; --chip:#201F25; --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0E12; --surface:#18171C; --fg:#F2EFE9; --muted:#A39E95; --line:#2C2A31;
+  --brand:#FF8F1F; --brand-text:#FFA94D; --chip:#201F25; --shadow:none; color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:400 15px/1.55 var(--font-b);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 72px;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:1160px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* header */
+header{padding-block:44px 22px}
+.eyebrow{font:600 12px/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;color:var(--brand-text);margin:0 0 14px}
+h1{font:700 clamp(30px,5.2vw,48px)/1.08 var(--font-d);margin:0 0 16px;text-wrap:balance;max-width:20ch}
+.lede{max-width:64ch;color:var(--muted);font-size:16px;margin:0 0 10px}
+.lede b{color:var(--fg);font-weight:600}
+
+/* sticky nav */
+nav.opts{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);
+  border-bottom:1px solid var(--line);padding-block:10px;
+  display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin;
+}
+.chip-link{
+  display:inline-flex;align-items:center;gap:9px;padding:7px 13px 7px 10px;border:1px solid var(--line);
+  border-radius:999px;background:var(--surface);font:500 13px/1 var(--font-b);text-decoration:none;white-space:nowrap;color:var(--fg);
+}
+.chip-link:hover{border-color:var(--brand)}
+.chip-link .dots{display:inline-flex}
+.chip-link .dots i{width:12px;height:12px;border-radius:50%;margin-left:-3px;box-shadow:0 0 0 1.5px var(--surface),0 0 0 2.5px rgba(128,128,128,.25)}
+.chip-link .dots i:first-child{margin-left:0}
+
+/* overview */
+h2.sec{font:700 12px/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:40px 0 16px}
+.overview{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px}
+.ov{
+  display:flex;flex-direction:column;gap:12px;padding:12px;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--fg);min-width:0;
+}
+.ov:hover{border-color:var(--brand)}
+.ov .mini{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:8px;overflow:hidden}
+.ov h3{margin:0;font:600 15px/1.2 var(--font-d)}
+.ov p{margin:2px 0 0;font-size:12.5px;color:var(--muted);line-height:1.4}
+.ov .ltr{font:700 12px var(--font-d);color:var(--brand-text);margin-right:6px}
+
+/* palette sections */
+.opt{margin-top:56px;padding-top:44px;border-top:1px solid var(--line);scroll-margin-top:64px}
+.opt-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.opt-head .letter{font:800 clamp(40px,7vw,64px)/1 var(--font-d);color:var(--brand)}
+.opt-head h2{font:700 clamp(24px,4vw,32px)/1.1 var(--font-d);margin:0}
+.badge{font:600 11px/1 var(--font-d);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);align-self:center}
+.mood{max-width:62ch;font-size:16px;margin:12px 0 0}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px 40px;margin:20px 0 28px;max-width:860px}
+.notes h4{font:600 11px/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.notes p{margin:0;font-size:14px}
+
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px 12px}
+.sw{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:3px;cursor:pointer;min-width:0}
+.sw:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:10px}
+.sw .chip{height:76px;border-radius:10px;border:1px solid rgba(128,128,128,.3);margin-bottom:5px;transition:transform .12s}
+.sw:hover .chip{transform:translateY(-2px)}
+.sw b{font:600 13px/1.25 var(--font-d)}
+.sw code{font:400 12px var(--mono);color:var(--muted)}
+.sw em{font:400 12px/1.3 var(--font-b);font-style:normal;color:var(--muted)}
+.hint{font-size:12.5px;color:var(--muted);margin:12px 0 0}
+
+h3.sub{font:600 11px/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.mocks{margin-top:34px;display:grid;gap:34px;font-family:var(--font-d)}
+.posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.extras{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:32px;align-items:start}
+@media (max-width:820px){.extras{grid-template-columns:minmax(0,1fr)}}
+.feed{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:360px;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(128,128,128,.3)}
+
+/* ===== palette role tokens for the mockups ===== */
+.mocks,.mini{
+  --bar:linear-gradient(90deg,var(--c0) 0 55%,var(--c1) 55% 78%,var(--c2) 78% 100%);
+}
+.pal-g{--bg:#EAF3FF;--bg2:#FFFFFF;--line:#C5DAF3;--fg:#0B2545;--muted:#4A5F7A;--card-fg:#0B2545;--card-muted:#4A5F7A;--hl-fg:#0B2545;--hl-bg:#FF8F1F;--o0:#FF8F1F;--o1:#2F7FE0;--url:#D96A00;--c0:#FF8F1F;--c1:#2F7FE0;--c2:#0B2545;--btn-bg:#FF8F1F;--btn-fg:#0B2545;--logo:#0B2545;--mark:#FF8F1F;--wave:#CFE1F7;--stroke:#0B2545;--tag-bg:transparent;--tag-fg:#2F7FE0;--disc:#FFD35C;--panel:#FFFFFF;--bar:linear-gradient(90deg,#FF8F1F 0 55%,#4DA3FF 55% 78%,#FFD35C 78% 100%);--dk:#0B2545;--dc0:#FF8F1F;--dc1:#4DA3FF;--dc2:#FFD35C;--k0b:#EAF3FF;--k0f:#0B2545;--k0k:#D96A00;--k1b:#FFFFFF;--k1f:#0B2545;--k1k:#2F7FE0;--k2b:#FF8F1F;--k2f:#0B2545;--k2k:#0B2545;--k3b:#0B2545;--k3f:#FFFFFF;--k3k:#FF8F1F;--k4b:#4DA3FF;--k4f:#0B2545;--k4k:#0B2545}
+.pal-g .v-d{--bg:#0B2545;--bg2:#13335F;--line:#24508A;--fg:#FFFFFF;--muted:#A9BEDA;--card-fg:#FFFFFF;--card-muted:#A9BEDA;--hl-fg:#FF8F1F;--hl-bg:transparent;--o0:#FF8F1F;--o1:#4DA3FF;--url:#FF8F1F;--c0:#FF8F1F;--c1:#4DA3FF;--c2:#FFD35C;--btn-bg:#FF8F1F;--btn-fg:#0B2545;--logo:#FFFFFF;--mark:#FF8F1F;--wave:#17406F;--stroke:#FF8F1F;--tag-bg:transparent;--tag-fg:#4DA3FF;--disc:#4DA3FF;--panel:#13335F;--bar:linear-gradient(90deg,#FF8F1F 0 55%,#4DA3FF 55% 78%,#FFD35C 78% 100%)}
+.pal-g .v-a{--bg:#FF8F1F;--bg2:#0B2545;--line:#0B2545;--fg:#0B2545;--muted:#4A2A00;--card-fg:#FFFFFF;--card-muted:#A9BEDA;--hl-fg:#FF8F1F;--hl-bg:#0B2545;--o0:#0B2545;--o1:#0B2545;--url:#0B2545;--c0:#FF8F1F;--c1:#FFD35C;--c2:#4DA3FF;--btn-bg:#0B2545;--btn-fg:#FF8F1F;--logo:#0B2545;--mark:#0B2545;--wave:#FFA84D;--stroke:#0B2545;--tag-bg:#0B2545;--tag-fg:#FFD35C;--disc:#EAF3FF;--panel:#0B2545;--bar:linear-gradient(90deg,#0B2545 0 55%,#EAF3FF 55% 78%,#FFD35C 78% 100%)}
+.pal-h{--bg:#FFEEEA;--bg2:#FFFFFF;--line:#F5D2CB;--fg:#2A1026;--muted:#7A5568;--card-fg:#2A1026;--card-muted:#7A5568;--hl-fg:#2A1026;--hl-bg:#FF8F1F;--o0:#FF8F1F;--o1:#D6336C;--url:#D6336C;--c0:#FF8F1F;--c1:#D6336C;--c2:#2A1026;--btn-bg:#FF8F1F;--btn-fg:#2A1026;--logo:#2A1026;--mark:#FF8F1F;--wave:#F8DAD4;--stroke:#2A1026;--tag-bg:transparent;--tag-fg:#D6336C;--disc:#FFC9B3;--panel:#FFFFFF;--bar:linear-gradient(90deg,#FF8F1F 0 55%,#D6336C 55% 78%,#FFC9B3 78% 100%);--dk:#2A1026;--dc0:#FF8F1F;--dc1:#FF6FA5;--dc2:#FFC9B3;--k0b:#FFEEEA;--k0f:#2A1026;--k0k:#D6336C;--k1b:#FFFFFF;--k1f:#2A1026;--k1k:#D6336C;--k2b:#FF8F1F;--k2f:#2A1026;--k2k:#2A1026;--k3b:#2A1026;--k3f:#FFFFFF;--k3k:#FF8F1F;--k4b:#D6336C;--k4f:#FFFFFF;--k4k:#FFC9B3}
+.pal-h .v-d{--bg:#2A1026;--bg2:#3D1A38;--line:#5E2C57;--fg:#FFFFFF;--muted:#D8B7CF;--card-fg:#FFFFFF;--card-muted:#D8B7CF;--hl-fg:#FF8F1F;--hl-bg:transparent;--o0:#FF8F1F;--o1:#FF6FA5;--url:#FF8F1F;--c0:#FF8F1F;--c1:#FF6FA5;--c2:#FFC9B3;--btn-bg:#FF8F1F;--btn-fg:#2A1026;--logo:#FFFFFF;--mark:#FF8F1F;--wave:#3B1D36;--stroke:#FF8F1F;--tag-bg:transparent;--tag-fg:#FF6FA5;--disc:#D6336C;--panel:#3D1A38;--bar:linear-gradient(90deg,#FF8F1F 0 55%,#FF6FA5 55% 78%,#FFC9B3 78% 100%)}
+.pal-h .v-a{--bg:#D6336C;--bg2:#FFFFFF;--line:#FFFFFF;--fg:#FFFFFF;--muted:#FFE3EC;--card-fg:#2A1026;--card-muted:#7A5568;--hl-fg:#2A1026;--hl-bg:#FF8F1F;--o0:#FFC9B3;--o1:#FFC9B3;--url:#FFFFFF;--c0:#FF8F1F;--c1:#D6336C;--c2:#2A1026;--btn-bg:#FF8F1F;--btn-fg:#2A1026;--logo:#FFFFFF;--mark:#FFC9B3;--wave:#E2527F;--stroke:#FFFFFF;--tag-bg:#2A1026;--tag-fg:#FFC9B3;--disc:#FFC9B3;--panel:#FFFFFF;--bar:linear-gradient(90deg,#2A1026 0 55%,#FFC9B3 55% 78%,#FF8F1F 78% 100%)}
+.pal-i{--bg:#E6F6EE;--bg2:#FFFFFF;--line:#BFE3D0;--fg:#0E2A22;--muted:#4B6B5F;--card-fg:#0E2A22;--card-muted:#4B6B5F;--hl-fg:#0E2A22;--hl-bg:#FF8F1F;--o0:#FF8F1F;--o1:#0B7A50;--url:#0B7A50;--c0:#FF8F1F;--c1:#0B7A50;--c2:#0E2A22;--btn-bg:#FF8F1F;--btn-fg:#0E2A22;--logo:#0E2A22;--mark:#FF8F1F;--wave:#CDEBDD;--stroke:#0E2A22;--tag-bg:transparent;--tag-fg:#0B7A50;--disc:#C9F27A;--panel:#FFFFFF;--bar:linear-gradient(90deg,#FF8F1F 0 55%,#0B7A50 55% 78%,#C9F27A 78% 100%);--dk:#0E2A22;--dc0:#FF8F1F;--dc1:#3DDC97;--dc2:#C9F27A;--k0b:#E6F6EE;--k0f:#0E2A22;--k0k:#0B7A50;--k1b:#FFFFFF;--k1f:#0E2A22;--k1k:#0B7A50;--k2b:#FF8F1F;--k2f:#0E2A22;--k2k:#0E2A22;--k3b:#0E2A22;--k3f:#FFFFFF;--k3k:#3DDC97;--k4b:#C9F27A;--k4f:#0E2A22;--k4k:#0E2A22}
+.pal-i .v-d{--bg:#0E2A22;--bg2:#153A30;--line:#24584A;--fg:#FFFFFF;--muted:#A9CDBE;--card-fg:#FFFFFF;--card-muted:#A9CDBE;--hl-fg:#FF8F1F;--hl-bg:transparent;--o0:#FF8F1F;--o1:#3DDC97;--url:#FF8F1F;--c0:#FF8F1F;--c1:#3DDC97;--c2:#C9F27A;--btn-bg:#FF8F1F;--btn-fg:#0E2A22;--logo:#FFFFFF;--mark:#FF8F1F;--wave:#14362D;--stroke:#FF8F1F;--tag-bg:transparent;--tag-fg:#3DDC97;--disc:#3DDC97;--panel:#153A30;--bar:linear-gradient(90deg,#FF8F1F 0 55%,#3DDC97 55% 78%,#C9F27A 78% 100%)}
+.pal-i .v-a{--bg:#C9F27A;--bg2:#0E2A22;--line:#0E2A22;--fg:#0E2A22;--muted:#2F4F42;--card-fg:#FFFFFF;--card-muted:#A9CDBE;--hl-fg:#C9F27A;--hl-bg:#0E2A22;--o0:#0E2A22;--o1:#0E2A22;--url:#0E2A22;--c0:#FF8F1F;--c1:#3DDC97;--c2:#C9F27A;--btn-bg:#0E2A22;--btn-fg:#C9F27A;--logo:#0E2A22;--mark:#0E2A22;--wave:#B4E05F;--stroke:#0E2A22;--tag-bg:#0E2A22;--tag-fg:#C9F27A;--disc:#FF8F1F;--panel:#0E2A22;--bar:linear-gradient(90deg,#0E2A22 0 55%,#FF8F1F 55% 78%,#FFFFFF 78% 100%)}
+.pal-j{--bg:#EFEAFF;--bg2:#FFFFFF;--line:#D6CCF7;--fg:#1F1747;--muted:#5E5688;--card-fg:#1F1747;--card-muted:#5E5688;--hl-fg:#1F1747;--hl-bg:#FF8F1F;--o0:#FF8F1F;--o1:#6B4EE6;--url:#6B4EE6;--c0:#FF8F1F;--c1:#6B4EE6;--c2:#1F1747;--btn-bg:#FF8F1F;--btn-fg:#1F1747;--logo:#1F1747;--mark:#FF8F1F;--wave:#DDD4FA;--stroke:#1F1747;--tag-bg:transparent;--tag-fg:#6B4EE6;--disc:#FFC857;--panel:#FFFFFF;--bar:linear-gradient(90deg,#FF8F1F 0 55%,#6B4EE6 55% 78%,#FFC857 78% 100%);--dk:#1F1747;--dc0:#FF8F1F;--dc1:#A794FF;--dc2:#FFC857;--k0b:#EFEAFF;--k0f:#1F1747;--k0k:#6B4EE6;--k1b:#FFFFFF;--k1f:#1F1747;--k1k:#6B4EE6;--k2b:#FF8F1F;--k2f:#1F1747;--k2k:#1F1747;--k3b:#1F1747;--k3f:#FFFFFF;--k3k:#FFC857;--k4b:#6B4EE6;--k4f:#FFFFFF;--k4k:#FFC857}
+.pal-j .v-d{--bg:#1F1747;--bg2:#2C2260;--line:#453A8A;--fg:#FFFFFF;--muted:#C7BFEF;--card-fg:#FFFFFF;--card-muted:#C7BFEF;--hl-fg:#FF8F1F;--hl-bg:transparent;--o0:#FF8F1F;--o1:#A794FF;--url:#FF8F1F;--c0:#FF8F1F;--c1:#A794FF;--c2:#FFC857;--btn-bg:#FF8F1F;--btn-fg:#1F1747;--logo:#FFFFFF;--mark:#FF8F1F;--wave:#2A2160;--stroke:#FF8F1F;--tag-bg:transparent;--tag-fg:#A794FF;--disc:#7B61FF;--panel:#2C2260;--bar:linear-gradient(90deg,#FF8F1F 0 55%,#A794FF 55% 78%,#FFC857 78% 100%)}
+.pal-j .v-a{--bg:#6B4EE6;--bg2:#FFFFFF;--line:#FFFFFF;--fg:#FFFFFF;--muted:#E3DDFF;--card-fg:#1F1747;--card-muted:#5E5688;--hl-fg:#1F1747;--hl-bg:#FFC857;--o0:#FFC857;--o1:#FFC857;--url:#FFFFFF;--c0:#FF8F1F;--c1:#6B4EE6;--c2:#1F1747;--btn-bg:#FF8F1F;--btn-fg:#1F1747;--logo:#FFFFFF;--mark:#FFC857;--wave:#7C62F0;--stroke:#FFFFFF;--tag-bg:#1F1747;--tag-fg:#FFC857;--disc:#FFC857;--panel:#FFFFFF;--bar:linear-gradient(90deg,#1F1747 0 55%,#FFC857 55% 78%,#FF8F1F 78% 100%)}
+.pal-k{--bg:#F3ECE2;--bg2:#FFFBF5;--line:#E3D7C6;--fg:#2B211C;--muted:#7B6A5F;--card-fg:#2B211C;--card-muted:#7B6A5F;--hl-fg:#FFFFFF;--hl-bg:#E2602C;--o0:#E2602C;--o1:#5F6B2F;--url:#B8431A;--c0:#E2602C;--c1:#5F6B2F;--c2:#2B211C;--btn-bg:#E2602C;--btn-fg:#FFFFFF;--logo:#2B211C;--mark:#E2602C;--wave:#E8DCCB;--stroke:#2B211C;--tag-bg:transparent;--tag-fg:#5F6B2F;--disc:#E9C79F;--panel:#FFFBF5;--bar:linear-gradient(90deg,#E2602C 0 55%,#5F6B2F 55% 78%,#E9C79F 78% 100%);--dk:#2B211C;--dc0:#F2763F;--dc1:#A9B66B;--dc2:#E9C79F;--k0b:#F3ECE2;--k0f:#2B211C;--k0k:#B8431A;--k1b:#FFFBF5;--k1f:#2B211C;--k1k:#5F6B2F;--k2b:#E2602C;--k2f:#FFFFFF;--k2k:#FFFFFF;--k3b:#2B211C;--k3f:#FFF6EA;--k3k:#F2763F;--k4b:#5F6B2F;--k4f:#FFF6EA;--k4k:#E9C79F}
+.pal-k .v-d{--bg:#2B211C;--bg2:#3A2E27;--line:#5A483D;--fg:#FFF6EA;--muted:#CDBBA9;--card-fg:#FFF6EA;--card-muted:#CDBBA9;--hl-fg:#F2763F;--hl-bg:transparent;--o0:#F2763F;--o1:#A9B66B;--url:#F2763F;--c0:#F2763F;--c1:#A9B66B;--c2:#E9C79F;--btn-bg:#E2602C;--btn-fg:#FFFFFF;--logo:#FFF6EA;--mark:#F2763F;--wave:#3A2E27;--stroke:#F2763F;--tag-bg:transparent;--tag-fg:#A9B66B;--disc:#5F6B2F;--panel:#3A2E27;--bar:linear-gradient(90deg,#F2763F 0 55%,#A9B66B 55% 78%,#E9C79F 78% 100%)}
+.pal-k .v-a{--bg:#5F6B2F;--bg2:#FFFBF5;--line:#FFF6EA;--fg:#FFF6EA;--muted:#E4E0C4;--card-fg:#2B211C;--card-muted:#7B6A5F;--hl-fg:#2B211C;--hl-bg:#E9C79F;--o0:#E9C79F;--o1:#E9C79F;--url:#FFF6EA;--c0:#E2602C;--c1:#5F6B2F;--c2:#2B211C;--btn-bg:#E2602C;--btn-fg:#FFFFFF;--logo:#FFF6EA;--mark:#E9C79F;--wave:#6E7A3C;--stroke:#FFF6EA;--tag-bg:#2B211C;--tag-fg:#E9C79F;--disc:#E9C79F;--panel:#FFFBF5;--bar:linear-gradient(90deg,#2B211C 0 55%,#E9C79F 55% 78%,#E2602C 78% 100%)}
+
+/* ===== sample posts (sizes in cqw so they scale with the post) ===== */
+.post{
+  container-type:inline-size;position:relative;aspect-ratio:4/5;max-width:100%;overflow:hidden;
+  background:var(--bg);color:var(--fg);border-radius:12px;isolation:isolate;
+  box-shadow:0 0 0 1px rgba(128,128,128,.3),var(--shadow);
+}
+.post .wave{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:var(--wave);stroke-width:.35;z-index:0}
+.post .bar{position:absolute;left:0;right:0;top:0;height:1.5cqw;background:var(--bar);z-index:2}
+.post .disc{position:absolute;top:-14cqw;right:-14cqw;width:38cqw;aspect-ratio:1;border-radius:50%;background:var(--o0);z-index:0}
+.pi{position:relative;z-index:1;height:100%;padding:7.5cqw 7cqw 6cqw;display:flex;flex-direction:column;gap:3cqw}
+.logo{display:flex;align-items:center;gap:1.6cqw;font:700 4.8cqw/1 var(--font-d);letter-spacing:.06em;color:var(--logo)}
+.logo .mk{width:6.4cqw;height:6.4cqw;fill:var(--mark);stroke:var(--mark);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.logo .mk path{fill:none}
+.logo i{font-style:normal;color:var(--mark)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:2cqw}
+.tag{font:600 2.5cqw/1.25 var(--font-d);text-align:right;color:var(--tag-fg);background:var(--tag-bg);padding:1cqw 2cqw;border-radius:1.2cqw}
+.hl{color:var(--hl-fg);background:var(--hl-bg);padding:0 1.2cqw;border-radius:1.2cqw;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.url{font:700 4.4cqw/1 var(--font-d);color:var(--url,var(--o0));text-align:center;letter-spacing:.01em}
+.pi p{margin:0}
+
+.pa h3{font:700 8.4cqw/1.13 var(--font-d);margin:0;letter-spacing:-.01em}
+.pa .q{font:800 24cqw/.55 var(--font-d);color:var(--o0);height:9cqw;margin-top:6cqw}
+.pa .sub{font:400 3.4cqw/1.4 var(--font-d);color:var(--muted)}
+.pa .grow{flex:1}
+.pa .foot{font:500 2.5cqw/1 var(--font-d);color:var(--muted);text-align:center}
+
+.pb .date{display:flex;align-items:center;gap:4cqw;margin-top:2cqw}
+.pb .big{font:700 42cqw/.82 var(--font-d);color:transparent;-webkit-text-stroke:.9cqw var(--stroke);letter-spacing:-.02em}
+.pb .mo b{display:block;font:800 8cqw/1 var(--font-d)}
+.pb .mo i{display:block;font:700 5.4cqw/1.3 var(--font-d);font-style:normal;color:var(--o1)}
+.pb .mo u{display:block;text-decoration:none;font:500 2.8cqw/1 var(--font-d);letter-spacing:.2em;color:var(--muted)}
+.pb h3{font:800 9cqw/1.08 var(--font-d);margin:0;text-transform:uppercase;letter-spacing:-.005em}
+.pb .cards{display:grid;grid-template-columns:1fr 1fr;gap:2.5cqw}
+.pb .cd{background:var(--bg2);border:.3cqw solid var(--line);border-radius:2.4cqw;padding:3cqw;color:var(--card-fg)}
+.pb .cd small{display:block;font:700 2.4cqw/1 var(--font-d);letter-spacing:.14em;margin-bottom:1.6cqw}
+.pb .cd:nth-child(1) small{color:var(--c1)}
+.pb .cd:nth-child(2) small{color:var(--c2)}
+.pb .cd b{font:700 3.5cqw/1.25 var(--font-d)}
+.pb .grow{flex:1}
+
+.pc{text-align:center}
+.pc .logo{justify-content:center}
+.pc h3{font:800 7.6cqw/1.1 var(--font-d);margin:0;text-transform:uppercase}
+.pc .sub{font:400 3cqw/1.4 var(--font-d);color:var(--muted)}
+.pc .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.pc .ic{background:var(--bg2);border:.3cqw solid var(--line);border-radius:2.4cqw;padding:3cqw 1cqw 2.6cqw;color:var(--card-fg);display:flex;flex-direction:column;align-items:center;gap:1.6cqw}
+.pc .ic svg{width:8.4cqw;height:8.4cqw;color:var(--ic);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.pc .ic span{font:600 2.6cqw/1.2 var(--font-d)}
+.pc .cta{margin-top:auto;background:var(--btn-bg);color:var(--btn-fg);border-radius:3cqw;padding:3cqw;font:800 4cqw/1 var(--font-d);letter-spacing:.02em}
+
+/* ===== posts with people (cut-outs come from the injected image rules below) ===== */
+/*__PH_CSS__*/
+.halo{position:absolute;border-radius:50%;background:var(--disc);z-index:0}
+.ph{position:absolute;z-index:1;background-repeat:no-repeat;background-size:contain;background-position:bottom center}
+.pi .grow{flex:1}
+.pi .foot{font:500 2.5cqw/1 var(--font-d);color:var(--muted);text-align:center}
+
+/* robot workshop */
+.pr .ttl{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2cqw}
+.pr .ttl .s{font:800 6cqw/1.1 var(--font-d);text-transform:uppercase}
+.pr .ttl .b{font:800 14cqw/1.05 var(--font-d);text-transform:uppercase;letter-spacing:-.01em}
+.pr .halo{left:8cqw;bottom:30cqw;width:42cqw;height:42cqw}
+.pr .ph{left:1cqw;bottom:27cqw;width:52cqw;height:53.1cqw}
+.pr .pills{position:absolute;z-index:2;right:7cqw;bottom:33cqw;width:34cqw;display:flex;flex-direction:column;gap:2cqw}
+.pr .pill{display:flex;align-items:center;gap:2cqw;background:var(--bg2);border:.3cqw solid var(--line);border-radius:2.4cqw;padding:2.2cqw 2.4cqw;color:var(--card-fg);font:600 3cqw/1.1 var(--font-d)}
+.pr .pill svg{width:5cqw;height:5cqw;flex:none;color:var(--ic);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pr .info{margin-top:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.pr .cell{background:var(--bg2);border:.3cqw solid var(--line);border-radius:2.4cqw;padding:2.4cqw;color:var(--card-fg)}
+.pr .cell small{display:block;font:700 2cqw/1 var(--font-d);letter-spacing:.14em;margin-bottom:1.2cqw}
+.pr .cell:nth-child(1) small{color:var(--c0)}
+.pr .cell:nth-child(2) small{color:var(--c1)}
+.pr .cell:nth-child(3) small{color:var(--c2)}
+.pr .cell b{font:700 2.8cqw/1.2 var(--font-d)}
+
+/* team spotlight */
+.pm .halo{top:-8cqw;right:-10cqw;width:60cqw;height:60cqw}
+.pm .ph{right:0;bottom:0;width:52cqw;height:96.9cqw}
+.pm .nm{font:800 9.2cqw/1.02 var(--font-d);text-transform:uppercase;margin-top:5cqw;letter-spacing:-.01em}
+.pm .nm span{font-weight:400}
+.pm .role{font:700 3.2cqw/1.3 var(--font-d);text-transform:uppercase;margin-top:2cqw}
+.pm .role b{display:block;width:max-content;color:var(--hl-fg);background:var(--hl-bg);padding:0 1cqw;margin-left:-1cqw;border-radius:1cqw}
+.pm .role i{display:block;width:12cqw;height:.7cqw;background:var(--o0);margin-top:1.6cqw}
+.pm .bl{font:400 3cqw/1.5 var(--font-d);color:var(--muted);max-width:40cqw;margin-top:3cqw}
+.pm .soc{display:flex;align-items:center;gap:1.6cqw;font:600 3cqw/1 var(--font-d);color:var(--fg)}
+.pm .soc s{text-decoration:none;display:grid;place-items:center;width:5cqw;height:5cqw;border-radius:1.3cqw;background:var(--btn-bg);color:var(--btn-fg);font:800 2.2cqw/1 var(--font-d)}
+
+/* two-person dialogue */
+.ps .pnl{position:absolute;left:0;right:0;bottom:0;height:40cqw;background:var(--panel,var(--bg2));border-top:.3cqw solid var(--line);border-radius:6cqw 6cqw 0 0;z-index:0}
+.ps .pw{left:0;bottom:0;width:29.6cqw;height:60cqw}
+.ps .pmn{right:0;bottom:0;width:23.1cqw;height:40cqw}
+.ps .d{display:flex;flex-direction:column;gap:1.2cqw;margin-top:1cqw}
+.ps .d b{width:max-content;font:800 6.6cqw/1.1 var(--font-d);padding:0 1.2cqw;margin-left:-1.2cqw;border-radius:1.2cqw}
+.ps .d1 b{color:var(--hl-fg);background:var(--hl-bg)}
+.ps .d2{align-items:flex-end;text-align:right}
+.ps .d2 b{color:var(--tag-fg);background:var(--tag-bg);margin-left:0;margin-right:-1.2cqw}
+.ps .d p{margin:0;font:700 6cqw/1.15 var(--font-d)}
+.ps .d1 p{max-width:84cqw}
+.ps .cta2{position:absolute;z-index:2;left:53cqw;transform:translateX(-50%);bottom:10cqw;width:36cqw;text-align:center;background:var(--btn-bg);color:var(--btn-fg);border-radius:3cqw;padding:2.6cqw 1cqw;font:800 3.6cqw/1.15 var(--font-d)}
+.ps .u{position:absolute;z-index:2;left:53cqw;transform:translateX(-50%);bottom:4.5cqw;font:700 3.2cqw/1 var(--font-d);color:var(--c0);white-space:nowrap}
+
+.pm .bl .hl{white-space:nowrap;padding:0 .6cqw}
+
+/* ===== story highlight covers ===== */
+.covers{display:grid;grid-template-columns:repeat(auto-fit,minmax(76px,1fr));gap:18px 12px;max-width:640px}
+.cv{display:flex;flex-direction:column;align-items:center;gap:8px;font:500 12px/1 var(--font-b);color:var(--muted)}
+.cv .ring{width:76px;max-width:100%;aspect-ratio:1;border-radius:50%;background:var(--bg2);border:3px solid var(--rc);display:grid;place-items:center;color:var(--rc);box-shadow:0 0 0 1px rgba(128,128,128,.25)}
+.cv svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.cv .ring.dk{background:var(--dk)}
+.cv-note{font-size:12.5px;color:var(--muted);margin:16px 0 0;max-width:52ch}
+
+/* ===== feed tiles ===== */
+.tile{container-type:inline-size;aspect-ratio:4/5;position:relative;overflow:hidden;font-family:var(--font-d)}
+.ti{height:100%;padding:9cqw;display:flex;flex-direction:column;justify-content:space-between;gap:4cqw}
+.tile .k{font:700 6.4cqw/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase}
+.tile h5{font:700 13.5cqw/1.12 var(--font-d);margin:0}
+.tile .tb{height:2.4cqw;width:28cqw;border-radius:2cqw;background:currentColor}
+.k0{background:var(--k0b);color:var(--k0f)} .k0 .k{color:var(--k0k)}
+.k1{background:var(--k1b);color:var(--k1f)} .k1 .k{color:var(--k1k)}
+.k2{background:var(--k2b);color:var(--k2f)} .k2 .k{color:var(--k2k)}
+.k3{background:var(--k3b);color:var(--k3f)} .k3 .k{color:var(--k3k)}
+.k4{background:var(--k4b);color:var(--k4f)} .k4 .k{color:var(--k4k)}
+.tph{position:absolute;z-index:1;background-repeat:no-repeat;background-size:contain;background-position:bottom center}
+.tile.hp .ti{justify-content:flex-start;position:relative;z-index:2}
+.tile.hp h5{font-size:9.4cqw;max-width:54cqw}
+.tile.hp .tb{margin-top:auto}
+.tile.duo .tb{visibility:hidden}
+.t-robot{right:-3cqw;bottom:0;width:60cqw;height:61.3cqw}
+.t-maryam{right:0;bottom:0;width:46cqw;height:85.7cqw}
+.t-w{left:0;bottom:0;width:26cqw;height:52.7cqw}
+.t-m{right:0;bottom:0;width:20cqw;height:34.6cqw}
+
+.cmp{margin-top:26px;max-width:640px}
+.cmp-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px}
+.cmp-row span{width:160px;flex:none;font:500 12.5px/1.2 var(--font-b);color:var(--muted)}
+.cmp-row i{display:block;width:52px;height:34px;border-radius:8px;border:1px solid rgba(128,128,128,.3)}
+.cmp p{margin:10px 0 0;font-size:13px;color:var(--muted);max-width:56ch}
+
+/* ===== guide ===== */
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px 36px;margin-top:6px}
+.guide h3{font:600 15px/1.3 var(--font-d);margin:0 0 6px}
+.guide p{margin:0;font-size:14px;color:var(--muted);max-width:44ch}
+.ratio{display:flex;height:34px;border-radius:8px;overflow:hidden;margin:6px 0 10px;max-width:640px;box-shadow:0 0 0 1px var(--line)}
+.ratio span{display:flex;align-items:center;padding-left:10px;font:600 11px var(--font-d);white-space:nowrap;overflow:hidden}
+.pick{margin-top:40px;padding:22px 24px;border:1px solid var(--line);border-radius:14px;background:var(--surface);max-width:820px}
+.pick h3{font:700 18px/1.2 var(--font-d);margin:0 0 10px}
+.pick p{margin:0 0 10px;font-size:15px}
+.pick p:last-child{margin:0;color:var(--muted);font-size:14px}
+.foot-note{margin-top:32px;font-size:12.5px;color:var(--muted);max-width:70ch}
+
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+  background:var(--fg);color:var(--bg);padding:9px 15px;border-radius:999px;font:500 13px/1 var(--font-b);
+  opacity:0;pointer-events:none;transition:opacity .15s;z-index:40;max-width:calc(100vw - 32px)}
+#toast.show{opacity:1}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10.5H4z"/><circle cx="12" cy="13.5" r="3.4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10.5h16M9 3.5v4M15 3.5v4"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M4 10v4h3.2L15 18V6L7.2 10z"/><path d="M18 9.2a3.6 3.6 0 0 1 0 5.6"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.6 0 2.1-1.1 1.5-2.1-.6-1.1.1-2.4 1.5-2.4H17a3.5 3.5 0 0 0 3.5-3.5C20.5 7.2 16.7 3.5 12 3.5z"/><circle cx="8" cy="10.5" r=".9"/><circle cx="12" cy="7.8" r=".9"/><circle cx="16" cy="10.5" r=".9"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5.5h14v10h-8.5l-4 4v-4H5z"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M10 9.5v5l4.5-2.5z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3.5 19c.5-3 2.7-5 5.5-5s5 2 5.5 5"/><circle cx="17" cy="9.5" r="2.3"/><path d="M16 14c2.4-.3 4.1 1.2 4.5 4.5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5h5.5A2.5 2.5 0 0 1 12 8v11a2.5 2.5 0 0 0-2.5-2.5H4zM20 5.5h-5.5A2.5 2.5 0 0 0 12 8v11a2.5 2.5 0 0 1 2.5-2.5H20z"/></symbol>
+  <symbol id="i-userplus" viewBox="0 0 24 24"><circle cx="10" cy="9" r="3.2"/><path d="M4 19c.5-3.2 3-5 6-5s5.5 1.8 6 5"/><path d="M18 8v6M15 11h6"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M4 17l5-4 4 3 3-2 4 3"/></symbol>
+  <symbol id="i-news" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 12.5h8M8 16h5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3 6 13.5h5L10 21l7-10.5h-5z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M4 16.5l5-5 4 4 7-8"/><path d="M15 7.5h5v5"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">AI Baithak · Instagram color options · second board</p>
+    <h1>Five lighter color options</h1>
+    <p class="lede">Each option is <b>light first</b>. Most posts sit on a light base, with a dark variation for emphasis and one bold accent post. Orange stays the signature, except in K, where terracotta takes its place. The lettering continues from <a href="https://claude.ai/artifact/BmNWnGyrjbfA25xWZbKZJw" target="_blank" rel="noopener">the first board</a> (A to F), so these are G to K.</p>
+    <p class="lede">Each option shows six sample posts (three of them with people and the robot from your workshop post), story highlight covers and a nine-post feed. Click any color to copy its hex code.</p>
+  </header>
+
+  <nav class="opts" id="nav" aria-label="Palette options"></nav>
+
+  <h2 class="sec">Side by side</h2>
+  <div class="overview" id="overview"></div>
+
+  <div id="app"></div>
+
+  <section class="opt" id="guide-sec">
+    <h2 class="sec" style="margin-top:0">How the light and dark variations work</h2>
+    <div class="guide">
+      <div><h3>Light is the home base</h3><p>Most posts use the light base, so the profile feels bright. The dark variation is for strong moments like events, quotes and announcements.</p></div>
+      <div><h3>Accent base now and then</h3><p>Use the bold accent base for about one post in six, for spotlights and big calls to action.</p></div>
+      <div><h3>The signature color is a highlight block</h3><p>On light backgrounds, orange text is hard to read. The signature color goes on highlight blocks, buttons and shapes, with dark text on top.</p></div>
+      <div><h3>Mix the grid</h3><p>Aim for light, dark and accent in every row of three. The feed preview in each option shows the pattern.</p></div>
+    </div>
+
+    <div class="pick">
+      <h3>My pick</h3>
+      <p>Use <b>G · Sky &amp; Sun</b> as the main look. Orange and blue are opposites, so your signature stands out. Navy replaces black for the dark posts, and the blue reads as clear and trustworthy, which suits an AI community.</p>
+      <p>For a warmer, community feel choose <b>H · Blush &amp; Berry</b>. For something different from most tech pages choose <b>K · Clay &amp; Olive</b>, but check the terracotta next to your logo first.</p>
+      <p>This is a recommendation. The final choice is the team's.</p>
+    </div>
+
+    <p class="foot-note">The logo and partner names in these mockups are redrawn placeholders for layout only. Real artwork replaces them in the final templates. Post text is taken from your existing posts. The people and the robot are cut out of screenshots of your own posts, so they look soft here. Original photos will look sharper, and each needs its own cut-out with a transparent background.</p>
+  </section>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var ICONS = ['camera','calendar','megaphone','palette','chat','video'];
+  var ICON_LABELS = ['Shooting','Events','Marketing','Design','Social','Video'];
+  var COVERS = [['calendar','Events'],['users','Team'],['book','Learn'],['userplus','Join'],['image','Gallery'],['news','Press']];
+
+  function vv(p,i,html){
+    var v = p.v && p.v[i];
+    return v ? html.replace('<div class="post">','<div class="post '+v+'">') : html;
+  }
+  function chips(list){ return list.map(function(c){ return '<i style="background:'+c+'"></i>'; }).join(''); }
+
+  var PAL = [
+    {"id": "g", "cls": "pal-g", "name": "Sky &amp; Sun", "mode": "Light first", "short": "Sky blue + navy + orange", "mood": "A fresh sky-blue base with navy where you need dark. Orange and blue are opposites, so the signature orange stands out without being loud.", "best": "AI workshops, announcements and event posters. Anything that should feel clear and trustworthy.", "watch": "Keep blue to labels, icons and small shapes. Orange text on the sky base is weak, so orange goes on highlight blocks with navy text on top.", "sw": [["Sky", "#EAF3FF", "Light base"], ["Cloud White", "#FFFFFF", "Cards"], ["Navy", "#0B2545", "Dark base and text"], ["Sun Orange", "#FF8F1F", "Signature"], ["Sky Blue", "#4DA3FF", "Accent 1"], ["Butter", "#FFD35C", "Accent 2"], ["Link Blue", "#2F7FE0", "Labels on light"], ["Slate Blue", "#4A5F7A", "Secondary text"]], "v": ["v-l", "v-l", "v-d", "v-l", "v-a", "v-d"]},
+    {"id": "h", "cls": "pal-h", "name": "Blush &amp; Berry", "mode": "Light first", "short": "Blush pink + plum + orange", "mood": "A soft blush base with plum for the dark posts. Warm and friendly, which suits volunteers, team spotlights and community moments.", "best": "Team spotlights, volunteer posts, community recaps and quotes.", "watch": "Berry and orange are both warm and can compete. Use berry for labels and one accent shape per post, and keep orange to the highlight block.", "sw": [["Blush", "#FFEEEA", "Light base"], ["Cloud White", "#FFFFFF", "Cards"], ["Plum", "#2A1026", "Dark base and text"], ["Signal Orange", "#FF8F1F", "Signature"], ["Berry", "#D6336C", "Accent 1"], ["Peach", "#FFC9B3", "Accent 2"], ["Berry Light", "#FF6FA5", "Berry on dark"], ["Mauve", "#7A5568", "Secondary text"]], "v": ["v-l", "v-l", "v-d", "v-l", "v-a", "v-d"]},
+    {"id": "i", "cls": "pal-i", "name": "Mint &amp; Lime", "mode": "Light first", "short": "Mint + forest + orange + lime", "mood": "A cool mint base with deep forest green for the dark posts and a lime pop. Orange stays the signature and green adds a fresh, growing feeling.", "best": "Learning posts, workshops, recaps and anything about growth.", "watch": "Lime is very bright, so use it for one block per post and never as text. Emerald on the mint base is for small labels only.", "sw": [["Mint", "#E6F6EE", "Light base"], ["Cloud White", "#FFFFFF", "Cards"], ["Forest", "#0E2A22", "Dark base and text"], ["Signal Orange", "#FF8F1F", "Signature"], ["Emerald", "#0B7A50", "Accent 1 on light"], ["Mint Bright", "#3DDC97", "Accent 1 on dark"], ["Lime", "#C9F27A", "Accent 2"], ["Sage", "#4B6B5F", "Secondary text"]], "v": ["v-l", "v-l", "v-d", "v-l", "v-a", "v-d"]},
+    {"id": "j", "cls": "pal-j", "name": "Lavender &amp; Marigold", "mode": "Light first", "short": "Lavender + indigo + orange", "mood": "A soft lavender base with deep indigo for the dark posts. Violet and marigold sit beside the orange for a playful, creative feel.", "best": "Creative and design posts, workshop sign-ups and team intros.", "watch": "Violet and orange are both strong. Keep violet for labels and the accent post, and let orange be the highlight.", "sw": [["Lavender", "#EFEAFF", "Light base"], ["Cloud White", "#FFFFFF", "Cards"], ["Indigo", "#1F1747", "Dark base and text"], ["Signal Orange", "#FF8F1F", "Signature"], ["Violet", "#6B4EE6", "Accent 1"], ["Marigold", "#FFC857", "Accent 2"], ["Lilac", "#A794FF", "Violet on dark"], ["Dusk", "#5E5688", "Secondary text"]], "v": ["v-l", "v-l", "v-d", "v-l", "v-a", "v-d"]},
+    {"id": "k", "cls": "pal-k", "name": "Clay &amp; Olive", "mode": "Light first", "short": "Stone + espresso + terracotta", "mood": "Earthy and calm: a warm stone base, espresso for the dark posts, terracotta as the signature and olive for detail. It looks premium and different from most tech pages.", "best": "Interviews, quotes, partner posts and longer posts.", "watch": "Terracotta is a deeper orange and moves the brand slightly toward red, so check it next to your current logo before committing. White text on terracotta works for big words only.", "sw": [["Stone", "#F3ECE2", "Light base"], ["Linen", "#FFFBF5", "Cards"], ["Espresso", "#2B211C", "Dark base and text"], ["Terracotta", "#E2602C", "Signature"], ["Olive", "#5F6B2F", "Accent 1"], ["Sand", "#E9C79F", "Accent 2"], ["Light Terracotta", "#F2763F", "Terracotta on dark"], ["Clay Grey", "#7B6A5F", "Secondary text"]], "v": ["v-l", "v-l", "v-d", "v-l", "v-a", "v-d"]}
+  ];
+
+  var TILES = [
+    ['Team','Meet the Leadership Council','k0'],
+    ['Event','21 Nov Mega Project Day','k2'],
+    ['Workshop','Build your first AI agent','k3','robot'],
+    ['Join us','We are extending our core teams','k1'],
+    ['Spotlight','Meet our team lead','k4','maryam'],
+    ['Quote','Learning grows when people come together','k0'],
+    ['Teamwork','Different skills, same goal','k3','duo'],
+    ['Partners','Our outreach partner','k1'],
+    ['Register','Join the next session','k2']
+  ];
+
+  function icon(n){ return '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-'+n+'"/></svg>'; }
+
+  var WAVE = '<svg class="wave" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true"><path d="M-5 38C15 18 35 62 58 40S95 28 108 46"/><path d="M-5 52C18 32 38 76 62 54S96 42 108 60"/><path d="M-5 66C20 46 40 90 64 68S98 56 108 74"/><path d="M-5 80C22 60 42 104 66 82S100 70 108 88"/></svg>';
+  var MARK = '<svg class="mk" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="3.4" r="2.2" stroke="none"/><path d="M4.5 21.5 12 8l7.5 13.5"/></svg>';
+  var LOGO = '<div class="logo">'+MARK+'<span>BA<i>i</i>THAK</span></div>';
+
+  function postA(){
+    return '<div class="post"><div class="bar"></div>'+WAVE+
+    '<div class="pi pa">'+
+      '<div class="row">'+LOGO+'<div class="tag">Learn Together<br>Build Together</div></div>'+
+      '<div class="q">“</div>'+
+      '<h3>We are proud to collab with <span class="hl">Amal Academy Batch 383</span> as their outreach partner.</h3>'+
+      '<p class="sub">Learning grows when people come together.</p>'+
+      '<div class="grow"></div>'+
+      '<div class="url">ai-baithak.com</div>'+
+      '<div class="foot">@ai_baithak · Karachi, Pakistan</div>'+
+    '</div></div>';
+  }
+  function postB(){
+    return '<div class="post"><div class="bar"></div><div class="disc"></div>'+WAVE+
+    '<div class="pi pb">'+
+      '<div class="row">'+LOGO+'</div>'+
+      '<div class="date"><span class="big">21</span><div class="mo"><b>NOV</b><i>2026</i><u>SATURDAY</u></div></div>'+
+      '<h3>Mega Project <span class="hl">Presentation</span></h3>'+
+      '<div class="grow"></div>'+
+      '<div class="cards"><div class="cd"><small>TIME</small><b>9:00 AM – 1:00 PM</b></div><div class="cd"><small>VENUE</small><b>NED University, Karachi</b></div></div>'+
+      '<div class="url">ai-baithak.com</div>'+
+    '</div></div>';
+  }
+  function postC(){
+    var cards = ICONS.map(function(n,i){
+      return '<div class="ic" style="--ic:var(--c'+(i%3)+')">'+icon(n)+'<span>'+ICON_LABELS[i]+'</span></div>';
+    }).join('');
+    return '<div class="post"><div class="bar"></div>'+WAVE+
+    '<div class="pi pc">'+
+      LOGO+
+      '<h3>We are <span class="hl">extending</span> our core teams!</h3>'+
+      '<p class="sub">Join our core teams and be part of something bigger. Your skills, ideas and energy matter.</p>'+
+      '<div class="grid">'+cards+'</div>'+
+      '<div class="cta">JOIN OUR TEAM!</div>'+
+    '</div></div>';
+  }
+  var PILLS = [['bolt','Automate tasks'],['clock','Save time'],['trend','Work smarter']];
+
+  function postR(){
+    var pills = PILLS.map(function(p,i){
+      return '<div class="pill" style="--ic:var(--c'+i+')">'+icon(p[0])+'<span>'+p[1]+'</span></div>';
+    }).join('');
+    return '<div class="post"><div class="bar"></div>'+WAVE+
+    '<div class="pi pr">'+
+      '<div class="row">'+LOGO+'<div class="tag">Workshop</div></div>'+
+      '<div class="ttl"><span class="s">Build your first</span><span class="b"><span class="hl">AI</span> Agent</span></div>'+
+      '<div class="halo"></div><div class="ph ph-robot" role="img" aria-label="Robot holding a sign that reads Your First AI Agent"></div>'+
+      '<div class="pills">'+pills+'</div>'+
+      '<div class="info"><div class="cell"><small>DATE</small><b>4th October</b></div><div class="cell"><small>TIME</small><b>2:45 – 6:00 PM</b></div><div class="cell"><small>VENUE</small><b>Colabs DHA</b></div></div>'+
+      '<div class="foot">/ai_baithak · ai-baithak.com</div>'+
+    '</div></div>';
+  }
+  function postM(){
+    return '<div class="post"><div class="bar"></div>'+WAVE+
+    '<div class="pi pm">'+
+      '<div class="halo"></div><div class="ph ph-maryam" role="img" aria-label="Cut-out photo of Maryam"></div>'+
+      '<div class="row">'+LOGO+'</div>'+
+      '<div class="nm">Maryam<br>Fatima<br><span>Asad</span></div>'+
+      '<div class="role">Female volunteer<b>Team lead</b><i></i></div>'+
+      '<p class="bl">Maryam leads the female volunteer team at <span class="hl">AI Baithak</span>, guiding every member and turning effort into a chance to serve.</p>'+
+      '<div class="grow"></div>'+
+      '<div class="soc"><s>f</s><s>ig</s><s>in</s><span>/ai_baithak</span></div>'+
+    '</div></div>';
+  }
+  function postS(){
+    return '<div class="post"><div class="bar"></div>'+WAVE+
+    '<div class="pi ps">'+
+      '<div class="pnl"></div>'+
+      '<div class="ph ph-woman pw" role="img" aria-label="Cut-out photo of Zaryab"></div>'+
+      '<div class="ph ph-man pmn" role="img" aria-label="Cut-out photo of Abu Bakr"></div>'+
+      '<div class="row">'+LOGO+'<div class="tag">Different Skills<br>Same Goal</div></div>'+
+      '<div class="d d1"><b>Zaryab:</b><p>Mujhe AI Baithak ki core team mein jagah chahiye!</p></div>'+
+      '<div class="d d2"><b>Abu Bakr:</b><p>Okay! Jaisa aap bolen</p></div>'+
+      '<div class="cta2">JOIN THE<br>CORE TEAM</div>'+
+      '<div class="u">ai-baithak.com</div>'+
+    '</div></div>';
+  }
+
+  var TPH = {
+    robot:'<div class="tph t-robot ph-robot"></div>',
+    maryam:'<div class="tph t-maryam ph-maryam"></div>',
+    duo:'<div class="tph t-w ph-woman"></div><div class="tph t-m ph-man"></div>'
+  };
+  function tile(t){
+    var ph = t[3] || '';
+    return '<div class="tile '+t[2]+(ph?' hp '+ph:'')+'"><div class="ti"><div class="k">'+t[0]+'</div><h5>'+t[1]+'</h5><div class="tb"></div></div>'+(ph?TPH[ph]:'')+'</div>';
+  }
+  function feed(){ return TILES.map(tile).join(''); }
+  function covers(){
+    return COVERS.map(function(c,i){
+      var dark = i % 2 === 1;
+      var rc = 'var(--' + (dark ? 'dc' : 'c') + (i%3) + ')';
+      return '<div class="cv"><div class="ring'+(dark?' dk':'')+'" style="--rc:'+rc+'">'+icon(c[0])+'</div><span>'+c[1]+'</span></div>';
+    }).join('');
+  }
+  function swatches(p){
+    return p.sw.map(function(s){
+      var bg = s[3] || s[1];
+      return '<button type="button" class="sw" data-hex="'+s[1]+'" title="Click to copy"><span class="chip" style="background:'+bg+'"></span><b>'+s[0]+'</b><code>'+(s[3]?'4-stop gradient':s[1])+'</code><em>'+s[2]+'</em></button>';
+    }).join('');
+  }
+
+  var nav = document.getElementById('nav');
+  var ov = document.getElementById('overview');
+  var app = document.getElementById('app');
+  var letters = 'GHIJK';
+
+  PAL.forEach(function(p,i){
+    var L = letters[i];
+    var dots = p.sw.slice(0,5).filter(function(s,j){return j!==0 && j!==1 && !s[3];}).map(function(s){return '<i style="background:'+s[1]+'"></i>';}).join('');
+    var baseDot = '<i style="background:'+p.sw[0][1]+'"></i>';
+    if (p.dots) { baseDot = ''; dots = chips(p.dots); }
+    nav.insertAdjacentHTML('beforeend','<a class="chip-link" href="#opt-'+p.id+'" data-go="opt-'+p.id+'"><span class="dots">'+baseDot+dots+'</span>'+L+' · '+p.name+'</a>');
+    ov.insertAdjacentHTML('beforeend','<a class="ov" href="#opt-'+p.id+'" data-go="opt-'+p.id+'"><div class="mini '+p.cls+'">'+feed()+'</div><div><h3><span class="ltr">'+L+'</span>'+p.name+'</h3><p>'+p.short+'</p></div></a>');
+    app.insertAdjacentHTML('beforeend',
+      '<section class="opt" id="opt-'+p.id+'">'+
+        '<div class="opt-head"><span class="letter">'+L+'</span><h2>'+p.name+'</h2><span class="badge">'+p.mode+'</span></div>'+
+        '<p class="mood">'+p.mood+'</p>'+
+        '<div class="notes"><div><h4>Best for</h4><p>'+p.best+'</p></div><div><h4>Watch out for</h4><p>'+p.watch+'</p></div></div>'+
+        '<div class="swatches">'+swatches(p)+'</div>'+
+        '<p class="hint">Click a color to copy its hex code.</p>'+(p.extra||'')+
+        '<div class="mocks '+p.cls+'">'+
+          '<div><h3 class="sub">Sample posts</h3><div class="posts">'+vv(p,0,postA())+vv(p,1,postB())+vv(p,2,postC())+'</div></div>'+
+          '<div><h3 class="sub">Posts with people</h3><div class="posts">'+vv(p,3,postR())+vv(p,4,postM())+vv(p,5,postS())+'</div></div>'+
+          '<div class="extras">'+
+            '<div><h3 class="sub">Story highlight covers</h3><div class="covers">'+covers()+'</div><p class="cv-note">Covers alternate between light and dark fills. Ring color follows the topic, and the same topic always keeps the same ring color.</p></div>'+
+            '<div><h3 class="sub">Feed preview, nine posts</h3><div class="feed">'+feed()+'</div></div>'+
+          '</div>'+
+        '</div>'+
+      '</section>');
+  });
+
+  var toastEl = document.getElementById('toast'), toastTimer;
+  function toast(msg){
+    toastEl.textContent = msg; toastEl.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 1800);
+  }
+  function copy(text){
+    var done = function(){ toast('Copied ' + (text.length > 20 ? 'gradient colors' : text)); };
+    var fail = function(){ toast('Copy is blocked here. Hex: ' + text); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fail);
+      } else { fail(); }
+    } catch (e) { fail(); }
+  }
+  document.addEventListener('click', function(e){
+    var sw = e.target.closest ? e.target.closest('.sw') : null;
+    if (sw) { copy(sw.getAttribute('data-hex')); return; }
+    var go = e.target.closest ? e.target.closest('[data-go]') : null;
+    if (go) {
+      e.preventDefault();
+      var t = document.getElementById(go.getAttribute('data-go'));
+      if (t) t.scrollIntoView({ block:'start' });
+    }
+  });
+})();
+</script>

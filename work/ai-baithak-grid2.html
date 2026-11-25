@@ -1,0 +1,483 @@
+<title>AI Baithak Grid Covers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<style>
+/* Layout: before/after phones, a short read-out, then one large card per post. Each cover is
+   a small poster built from that post's own content (logos, photos, dates), in the brand's
+   three colors: warm black, orange, off-white. */
+:root{
+  --bg:#F6F3EE; --surface:#FFFFFF; --fg:#1C1A1F; --muted:#6A655D; --line:#E2DCD0;
+  --brand:#E8780A; --brand-text:#A84E00; --chip:#ECE7DE;
+  --shadow:0 1px 2px rgba(20,16,10,.06),0 10px 28px rgba(20,16,10,.08);
+  --font-d:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-b:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --K:#130D07; --O:#FF9A1E; --W:#F5F4F0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0E12; --surface:#18171C; --fg:#F2EFE9; --muted:#A39E95; --line:#2C2A31;
+    --brand:#FF9A1E; --brand-text:#FFAE4D; --chip:#201F25; --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0E12; --surface:#18171C; --fg:#F2EFE9; --muted:#A39E95; --line:#2C2A31;
+  --brand:#FF9A1E; --brand-text:#FFAE4D; --chip:#201F25; --shadow:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--fg);font:400 15px/1.55 var(--font-b);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 72px;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:1160px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+header{padding-block:44px 8px}
+.eyebrow{font:600 12px/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;color:var(--brand-text);margin:0 0 14px}
+h1{font:700 clamp(30px,5.2vw,48px)/1.08 var(--font-d);margin:0 0 16px;text-wrap:balance;max-width:20ch}
+.lede{max-width:68ch;color:var(--muted);font-size:16px;margin:0 0 10px}
+.lede b{color:var(--fg);font-weight:600}
+h2.sec{font:700 12px/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:56px 0 18px}
+.hint{font-size:12.5px;color:var(--muted);margin:14px 0 0;max-width:70ch}
+
+/* ---------- phones ---------- */
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),400px));justify-content:center;gap:36px 40px}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.cap{font:600 13px/1.3 var(--font-d);text-align:center}
+.cap small{display:block;font:400 12.5px var(--font-b);color:var(--muted);margin-top:2px}
+.phone{width:100%;background:#000;color:#F5F5F5;border-radius:26px;overflow:hidden;box-shadow:0 0 0 1px rgba(128,128,128,.3),var(--shadow)}
+.ptop{display:flex;justify-content:space-between;align-items:center;padding:16px 18px 10px;font:600 16px/1 var(--font-b)}
+.prof{display:flex;align-items:center;gap:16px;padding:4px 18px 0}
+.av{flex:none;width:76px;height:76px;border-radius:50%;background:#130D07;border:3px solid #FF9A1E;display:grid;place-items:center}
+.av svg,.hc.old svg{fill:#fff;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.av svg{width:34px;height:34px}
+.av svg path,.hc.old svg path{fill:none}
+.av svg circle,.hc.old svg circle{fill:#FF9A1E;stroke:none}
+.stats{flex:1;display:flex;justify-content:space-around;text-align:center;min-width:0}
+.stats b{display:block;font:700 16px/1.2 var(--font-b)}
+.stats span{font:400 12.5px/1.2 var(--font-b);color:#A8A8A8}
+.bio{padding:12px 18px 0;font:400 13.5px/1.45 var(--font-b)}
+.bio b{display:block;font-weight:600}
+.bio .cat{color:#A8A8A8}
+.bio a{color:#E0F1FF;text-decoration:none}
+.btns{display:flex;gap:8px;padding:12px 18px 0}
+.btns span{flex:1;text-align:center;background:#262626;border-radius:8px;padding:7px 0;font:600 13px/1.2 var(--font-b)}
+.hls{display:flex;gap:14px;overflow-x:auto;padding:14px 18px 12px;scrollbar-width:none}
+.hls::-webkit-scrollbar{display:none}
+.hl{flex:none;width:62px;text-align:center;font:400 11px/1.25 var(--font-b);color:#DDD}
+.hc{width:60px;height:60px;border-radius:50%;margin:0 auto 5px;display:grid;place-items:center;font:700 19px/1 var(--font-d)}
+.hc svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hc.old{background:#130D07;border:2.5px solid #FF9A1E}
+.hc.cK{background:var(--K);color:#fff;box-shadow:0 0 0 1.5px #3a3128}
+.hc.cO{background:var(--O);color:var(--K)}
+.hc.cW{background:var(--W);color:var(--K)}
+.tabs{border-top:1px solid #262626;display:flex;justify-content:center;padding:11px 0 10px}
+.tabs svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.old{position:relative;aspect-ratio:4/5;overflow:hidden;background:#111}
+.old img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ---------- covers ---------- */
+.c{container-type:inline-size;position:relative;aspect-ratio:4/5;overflow:hidden;font-family:var(--font-d);isolation:isolate}
+.c.K{--ink:#fff;--acc:var(--O);--pill:#fff;--pillink:var(--K);background:var(--K);color:#fff}
+.c.O{--ink:var(--K);--acc:var(--K);--pill:#fff;--pillink:var(--K);background:var(--O);color:var(--K)}
+.c.W{--ink:var(--K);--acc:#E08200;--pill:var(--K);--pillink:#fff;background:var(--W);color:var(--K)}
+.ci{position:absolute;inset:0;z-index:2;padding:6.5cqw;display:flex;flex-direction:column}
+.abs{position:absolute}
+.row{display:flex;align-items:center;justify-content:space-between;gap:2cqw}
+.lgo{height:7cqw;width:auto;display:block;align-self:flex-start}
+.mul{mix-blend-mode:multiply}
+.bar{display:inline-flex;align-self:flex-start;align-items:center;gap:2.2cqw;background:var(--pill);border-radius:3cqw;padding:1.8cqw 2.6cqw}
+.bar img{display:block;height:6.2cqw;width:auto;border-radius:.8cqw}
+.bar .x{font:700 4cqw/1 var(--font-d);color:var(--pillink)}
+.tg{display:inline-flex;align-items:center;font:700 3.2cqw/1 var(--font-d);letter-spacing:.14em;text-transform:uppercase;padding:1.5cqw 2.4cqw;border-radius:6cqw;border:.35cqw solid currentColor;white-space:nowrap}
+.tg svg{width:3.2cqw;height:3.2cqw;fill:currentColor;margin-right:1.2cqw}
+.tg.fl{background:transparent;color:var(--K);border-color:var(--K)}
+.hd{font:800 var(--s,10cqw)/1.05 var(--font-d);letter-spacing:-.01em;margin:0}
+.sm{font:500 var(--s,3.6cqw)/1.35 var(--font-d)}
+.acc{color:var(--acc)}
+.hi{padding:0 1.6cqw;border-radius:1.4cqw;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.c.K .hi{color:var(--O);padding:0}
+.c.K .hb{background:var(--O);color:var(--K);padding:0 1.6cqw}
+.c.O .hi{color:#fff;padding:0}
+.ul{text-decoration:underline;text-decoration-thickness:.7cqw;text-underline-offset:1.2cqw}
+.c.W .hi{background:var(--O);color:var(--K)}
+.cp{display:inline-flex;align-items:center;gap:1.4cqw;font:700 3cqw/1 var(--font-d);padding:1.7cqw 2.6cqw;border-radius:2cqw;white-space:nowrap}
+.cp.o{border:.35cqw solid currentColor}
+.cp.f{background:var(--ink);color:var(--K)}
+.c.W .cp.f{background:var(--K);color:#fff}
+.c.O .cp.f{background:#fff;color:var(--K)}
+.c.K .cp.f{background:#fff;color:var(--K)}
+.cp svg{width:3.8cqw;height:3.8cqw;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.wrapr{display:flex;flex-wrap:wrap;gap:2cqw}
+.pic{position:absolute;object-fit:cover;z-index:0}
+.tph{position:absolute;z-index:1;background-repeat:no-repeat;background-size:contain;background-position:bottom center}
+.lt{mix-blend-mode:lighten}
+.qm{font:800 22cqw/.6 var(--font-d);color:var(--O);height:8cqw}
+.date{display:flex;align-items:center;gap:3cqw}
+.date .big{font:700 38cqw/.82 var(--font-d);color:transparent;-webkit-text-stroke:.9cqw var(--K);letter-spacing:-.02em}
+.date b{display:block;font:800 8cqw/1 var(--font-d)}
+.date i{display:block;font:700 5cqw/1.3 var(--font-d);font-style:normal}
+.date u{display:block;text-decoration:none;font:600 2.8cqw/1 var(--font-d);letter-spacing:.2em}
+.steps{display:flex;flex-direction:column;gap:2.6cqw}
+.st{display:flex;align-items:center;gap:3cqw;font:600 4.2cqw/1.2 var(--font-d)}
+.st b{flex:none;width:8cqw;height:8cqw;border-radius:50%;background:var(--O);color:var(--K);display:grid;place-items:center;font:800 4.4cqw var(--font-d)}
+.bust{position:absolute;right:6.5cqw;bottom:6.5cqw;width:24cqw;height:24cqw;border-radius:50%;background:#fff;display:grid;place-items:center;color:var(--O)}
+.bust svg{width:13cqw;height:13cqw;fill:currentColor}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2.5cqw}
+.fc{background:#fff;color:var(--K);border-radius:2.6cqw;padding:3cqw;display:flex;flex-direction:column;gap:2cqw;font:600 3.2cqw/1.25 var(--font-d)}
+.fc svg{width:7cqw;height:7cqw;color:var(--O);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.promo{display:flex;align-items:center;gap:3cqw;border:.4cqw dashed var(--O);border-radius:2.4cqw;padding:2.4cqw 3cqw;color:#fff}
+.promo b{font:800 6cqw/1 var(--font-d);color:var(--O)}
+.promo span{font:600 3.6cqw var(--font-d)}
+.g6{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.g6>div{background:#fff;border:.35cqw solid var(--K);border-radius:2.4cqw;padding:2.6cqw 1cqw;display:flex;flex-direction:column;align-items:center;gap:1.4cqw;font:600 2.6cqw/1.2 var(--font-d);text-align:center}
+.g6 svg{width:7.4cqw;height:7.4cqw;color:var(--O);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.btn{margin-top:auto;background:var(--K);color:var(--O);border-radius:3cqw;padding:3cqw;text-align:center;font:800 4cqw/1 var(--font-d)}
+.btn.o{background:var(--O);color:var(--K)}
+.lab{width:max-content;background:var(--O);color:var(--K);font:800 5cqw/1.2 var(--font-d);padding:.4cqw 2cqw;border-radius:1.4cqw}
+.lab.r{align-self:flex-end}
+.li{background:#0A66C2;color:#fff;border-radius:1.8cqw;padding:0 1.6cqw;font-weight:800}
+.p3{position:absolute;z-index:2;right:7cqw;bottom:33cqw;width:34cqw;display:flex;flex-direction:column;gap:2cqw}
+.p3 div{display:flex;align-items:center;gap:2cqw;border:.35cqw solid var(--O);border-radius:2.4cqw;padding:2.2cqw 2.4cqw;color:#fff;font:600 3cqw/1.1 var(--font-d)}
+.p3 svg{width:5cqw;height:5cqw;flex:none;color:var(--O);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cells{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw;margin-top:auto}
+.cells div{border:.35cqw solid var(--O);border-radius:2.4cqw;padding:2.4cqw;color:#fff;font:700 2.8cqw/1.2 var(--font-d)}
+.cells small{display:block;font:700 2cqw/1 var(--font-d);letter-spacing:.14em;color:var(--O);margin-bottom:1.2cqw}
+.kcard{background:#fff;border-radius:3cqw;padding:3cqw;display:grid;place-items:center;box-shadow:0 0 0 .35cqw var(--K)}
+.swap{display:flex;align-items:center;justify-content:space-between;padding:0 3cqw}
+.swap .arr svg{width:24cqw;height:12cqw;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.nm{width:21cqw;height:21cqw;fill:#fff;stroke:#fff;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.nm path{fill:none}
+.nm circle{fill:var(--O);stroke:none}
+.mailc{position:relative;background:#fff;color:var(--K);border-radius:3cqw;padding:4.4cqw;font:500 3.4cqw/1.4 var(--font-d)}
+.mailc b{display:block;font:700 4cqw/1.3 var(--font-d);margin-bottom:1.4cqw}
+.env{position:absolute;right:-1.5cqw;top:-5cqw;width:11cqw;height:11cqw;border-radius:50%;background:var(--O);color:#fff;display:grid;place-items:center}
+.env svg{width:6cqw;height:6cqw;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- read-out ---------- */
+.stat3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:6px}
+.sx{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.sx b{display:block;font:700 34px/1 var(--font-d);margin-bottom:6px}
+.sx p{margin:0;font-size:14px;color:var(--muted)}
+.read{max-width:70ch;margin:18px 0 0}
+.read p{margin:0 0 10px}
+
+/* ---------- post cards ---------- */
+.plist{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:18px}
+.pc{display:flex;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.pc .th{flex:none;width:210px;border-radius:8px;overflow:hidden;box-shadow:0 0 0 1px rgba(128,128,128,.3);align-self:flex-start}
+.pb{min-width:0;display:flex;flex-direction:column;gap:6px}
+.pm{font:500 12px/1.3 var(--font-b);color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 8px}
+.pm .n{font:700 12px var(--font-d);color:var(--brand-text)}
+.pb h3{margin:0;font:600 15.5px/1.25 var(--font-d)}
+.pb p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.cpx{font:500 11.5px/1 var(--font-b);padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:var(--chip);color:var(--fg)}
+.cpx.off{border-color:var(--brand);color:var(--brand-text);background:transparent}
+.pb a.open{font:600 12.5px/1 var(--font-b);color:var(--brand-text);text-decoration:none;margin-top:4px;width:max-content}
+.pb a.open:hover{text-decoration:underline}
+@media (max-width:520px){.pc{flex-direction:column}.pc .th{width:100%;max-width:260px}}
+.use{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px 36px}
+.use h3{font:600 15px/1.3 var(--font-d);margin:0 0 6px}
+.use p{margin:0;font-size:14px;color:var(--muted);max-width:46ch}
+.foot-note{margin-top:36px;font-size:12.5px;color:var(--muted);max-width:76ch}
+/*__PH_CSS__*/
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-mark" viewBox="0 0 24 24"><circle cx="12" cy="3.4" r="2.2" fill="#FF9A1E" stroke="none"/><path d="M4.5 21.5 12 8l7.5 13.5" fill="none"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4.5v1.5A3.5 3.5 0 0 0 8 11M16 6h3.5v1.5A3.5 3.5 0 0 1 16 11M12 13v4M8.5 20h7M10 17h4"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9.3 4v16M14.7 4v16M4 9.3h16M4 14.7h16"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10.5H4z"/><circle cx="12" cy="13.5" r="3.4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10.5h16M9 3.5v4M15 3.5v4"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M4 10v4h3.2L15 18V6L7.2 10z"/><path d="M18 9.2a3.6 3.6 0 0 1 0 5.6"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.6 0 2.1-1.1 1.5-2.1-.6-1.1.1-2.4 1.5-2.4H17a3.5 3.5 0 0 0 3.5-3.5C20.5 7.2 16.7 3.5 12 3.5z"/><circle cx="8" cy="10.5" r=".9"/><circle cx="12" cy="7.8" r=".9"/><circle cx="16" cy="10.5" r=".9"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5.5h14v10h-8.5l-4 4v-4H5z"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M10 9.5v5l4.5-2.5z"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-2.8 5 2.8-1.5-7.5"/></symbol>
+  <symbol id="i-cash" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6.5 9.5h.01M17.5 14.5h.01"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 12"><path d="M1 6h20M16 1l5 5-5 5"/></symbol>
+  <symbol id="i-bust" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4.5 4-7 8-7s7.5 2.5 8 7z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3 6 13.5h5L10 21l7-10.5h-5z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M4 16.5l5-5 4 4 7-8"/><path d="M15 7.5h5v5"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">AI Baithak · Instagram grid covers</p>
+    <h1>A cover for every post, in one look</h1>
+    <p class="lede">I opened your 20 newest posts and built each cover from that post's own design. Partner posts carry their logos, events show their date and venue, recaps use the real photos, and people posts use the cut-outs from your designs. Everything stays in your black, orange and white.</p>
+    <p class="lede">Below is your profile now and with the covers, then every cover at full size next to what the post says.</p>
+  </header>
+
+  <h2 class="sec">Your profile, now and with covers</h2>
+  <div class="phones" id="phones"></div>
+  <p class="hint">The left grid is cropped from screenshots of your real profile, so it is small and soft. Numbers are as of 24 Nov 2026.</p>
+
+  <h2 class="sec">What the grid shows</h2>
+  <div class="stat3" id="stats"></div>
+  <div class="read" id="read"></div>
+
+  <h2 class="sec">All 20 covers, post by post</h2>
+  <div class="plist" id="plist"></div>
+
+  <h2 class="sec">Using the covers</h2>
+  <div class="use">
+    <div><h3>New posts first</h3><p>Instagram does not let you swap the image on a published photo post. Use a cover as the first slide of a new carousel, with the poster or photos as the next slides. On a reel you can change the cover after posting.</p></div>
+    <div><h3>Partner posts</h3><p>Send the partner your cover and ask them to use it as slide one when they co-post. Posts published from their account can only be changed by them.</p></div>
+    <div><h3>Keep the color order</h3><p>Covers run black, white, orange down the diagonal, so no two neighbors match. A new post takes the color that differs from the cover above and the cover to its left.</p></div>
+    <div><h3>Logos stay on the cover</h3><p>For any collab, put the partner's logo next to yours on the cover. Use the black bar on orange and white covers, and the white bar on black ones.</p></div>
+  </div>
+
+  <p class="foot-note">Captions, dates and counts were read from the public posts on 24 Nov 2026 and will change. Partner logos and the event photos are taken from the posts themselves and are used here only to plan your grid. The AI Baithak logo on the white covers is cropped from a partner post. People and the robot are cut out of screenshots of your own posts, so they look soft at this size, and the Jensen Huang cover uses a silhouette in place of the photo. Like counts were not available for two partner posts.</p>
+</div>
+
+<script>
+(function(){
+/*__JS_DATA__*/
+  function S(n){ return '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-'+n+'"/></svg>'; }
+  function img(k, st, cls){ return '<img'+(cls?' class="'+cls+'"':'')+' src="'+IM[k]+'" alt=""'+(st?' style="'+st+'"':'')+'>'; }
+  function barX(a, b, extra){ return '<div class="bar">'+a+'<span class="x">×</span>'+b+(extra||'')+'</div>'; }
+
+  var COVER = {};
+  COVER[1] = function(){ return '<div class="c K"><div class="abs" style="z-index:0;top:-14cqw;right:-14cqw;width:38cqw;height:38cqw;border-radius:50%;background:var(--O)"></div>'+
+    '<div class="tph ph-leaders lt" style="left:6cqw;top:13cqw;width:88cqw;height:71cqw"></div>'+
+    '<div class="ci">'+img('logoDark','','lgo')+
+    '<div style="margin-top:auto;text-align:center"><div class="hd" style="--s:12.4cqw">LEADERSHIP</div><div class="hd acc" style="--s:8.6cqw;letter-spacing:.16em;margin-top:.6cqw">COUNCIL</div></div></div></div>'; };
+
+  COVER[2] = function(){
+    var st = [['1','Fill the form in our bio'],['2','Join the WhatsApp community'],['3','Get every event and session']].map(function(s){ return '<div class="st"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>'; }).join('');
+    return '<div class="c W"><div class="ci" style="gap:4cqw"><div class="row">'+img('logoLight','','lgo mul')+'<span class="tg">'+S('play')+'Reel</span></div>'+
+    '<div class="hd" style="--s:12cqw;margin-top:3cqw">How to join <span class="hi">AI Baithak</span></div><div class="steps">'+st+'</div>'+
+    '<div class="row" style="margin-top:auto"><span class="cp f">Free to join</span><span class="sm" style="font-weight:700">@ai_baithak</span></div></div></div>'; };
+
+  COVER[3] = function(){ return '<div class="c O"><div class="ci" style="gap:3cqw">'+barX(img('logoLight'), img('amal'))+
+    '<div class="date"><span class="big">21</span><div><b>NOV</b><i>2026</i><u>SATURDAY</u></div></div>'+
+    '<div class="hd" style="--s:9.4cqw">MEGA PROJECT <span class="hi">PRESENTATION</span></div>'+
+    '<div class="wrapr" style="margin-top:auto"><span class="cp f">9:00 AM – 1:00 PM</span><span class="cp o">NED University, Karachi</span></div></div></div>'; };
+
+  COVER[4] = function(){ return '<div class="c W"><div class="ci" style="gap:3cqw">'+barX(img('logoDark'), img('amal'))+
+    '<div class="qm" style="margin-top:3cqw">“</div>'+
+    '<div class="hd" style="--s:8.6cqw;line-height:1.1">We are proud to collab with <span class="hi">Amal Academy Batch 383</span> as their outreach partner.</div>'+
+    '<div class="row" style="margin-top:auto"><span class="sm" style="font-weight:700">Learn Together. Build Together.</span></div></div></div>'; };
+
+  COVER[5] = function(){ return '<div class="c O"><div class="ci" style="gap:3.4cqw">'+'<div class="bar">'+img('logoLight')+'</div>'+
+    '<div class="sm" style="--s:4.4cqw;font-weight:600;margin-top:2cqw">After resigning from NVIDIA…</div>'+
+    '<div class="hd" style="--s:15.4cqw;line-height:1.12">Jensen<br><span class="hi">Huang</span></div>'+
+    '<div class="hd" style="--s:7.4cqw">wants to join AI Baithak?</div>'+
+    '<div class="wrapr" style="margin-top:auto;max-width:56cqw"><span class="cp f">'+S('heart')+' 38</span><span class="cp f">'+S('chat')+' 22</span></div></div><div class="bust">'+S('bust')+'</div></div>'; };
+
+  COVER[6] = function(){ return '<div class="c K"><div class="abs" style="z-index:0;top:-16cqw;right:-16cqw;width:44cqw;height:44cqw;border-radius:50%;background:var(--O)"></div>'+
+    '<div class="tph ph-maryam" style="right:0;bottom:0;width:46cqw;height:85.7cqw"></div>'+
+    '<div class="ci" style="gap:3cqw">'+img('logoDark','','lgo')+
+    '<div class="hd" style="--s:9.6cqw;margin-top:5cqw">MARYAM<br>FATIMA<br><span style="font-weight:400">ASAD</span></div>'+
+    '<div class="sm" style="--s:3.2cqw;font-weight:700;line-height:1.3">FEMALE VOLUNTEER<br><span class="acc">TEAM LEAD</span></div>'+
+    '<div class="sm" style="--s:3cqw;max-width:42cqw;opacity:.88">Maryam leads the female volunteer team at <b class="acc">AI Baithak</b>, guiding every member and turning effort into a chance to serve.</div>'+
+    '<div class="sm" style="--s:3.2cqw;margin-top:auto;font-weight:600">/ai_baithak</div></div></div>'; };
+
+  COVER[7] = function(){ return '<div class="c O"><div class="ci" style="gap:3.4cqw">'+barX(img('logoLight'), img('ff','height:7.6cqw'))+
+    '<div class="hd" style="--s:17.4cqw;margin-top:1cqw">WIN-WIN</div>'+
+    '<div class="hd" style="--s:6.4cqw">SITUATION FOR <span class="ul">EVERYONE</span></div>'+
+    '<div class="two"><div class="fc">'+S('award')+'<span>Certificate for every participant</span></div><div class="fc">'+S('cash')+'<span>Cash prizes for winners</span></div></div>'+
+    '<div class="row" style="margin-top:auto">'+img('iqra','height:6.2cqw;border-radius:.8cqw','lgo')+'<span class="sm" style="font-weight:700">11–12 NOV</span></div></div></div>'; };
+
+  COVER[8] = function(){ return '<div class="c K"><div class="ci" style="gap:3.2cqw">'+barX(img('logoLight'), img('spectrumC','height:7.4cqw;border-radius:50%'))+
+    '<span class="tg acc" style="width:max-content;margin-top:2cqw">Outreach partner</span>'+
+    '<div class="hd" style="--s:11cqw">FREELANCE FEST</div><div class="hd acc" style="--s:8.4cqw">× AI BAITHAK</div>'+
+    '<div class="promo"><b>20% OFF</b><span>Code FFXAIB20</span></div>'+
+    '<div class="row" style="margin-top:auto">'+img('iqra','height:6cqw;border-radius:.8cqw','lgo')+'<span class="sm" style="font-weight:700">11–12 NOV</span></div></div></div>'; };
+
+  COVER[9] = function(){
+    var g = [['camera','Content Shooting'],['calendar','Event & Operations'],['megaphone','Marketing'],['palette','Creative & Design'],['chat','Social Media'],['video','Video Editing']].map(function(x){ return '<div>'+S(x[0])+'<span>'+x[1]+'</span></div>'; }).join('');
+    return '<div class="c W"><div class="ci" style="gap:3cqw"><div class="row">'+img('logoLight','','lgo mul')+'<span class="tg" style="font-size:2.4cqw">Different skills · Same goal</span></div>'+
+    '<div class="hd" style="--s:8.2cqw;text-align:center;margin-top:1cqw">WE ARE <span class="hi">EXTENDING</span> OUR CORE TEAMS!</div>'+
+    '<div class="g6">'+g+'</div><div class="btn">JOIN OUR TEAM!</div></div></div>'; };
+
+  COVER[10] = function(){ return '<div class="c W"><div class="ci" style="gap:2.4cqw"><div class="row">'+img('logoLight','','lgo mul')+'</div>'+
+    '<b class="lab" style="margin-top:2cqw">Zaryab:</b><div class="hd" style="--s:6.6cqw">Mujhe jagah chahiye!</div>'+
+    '<b class="lab r">Abu Bakr:</b><div class="hd" style="--s:6.6cqw;text-align:right">Okay! Jaisa aap bolen</div></div>'+
+    '<div class="tph ph-woman" style="left:0;bottom:0;width:29.6cqw;height:56cqw"></div><div class="tph ph-man" style="right:0;bottom:0;width:23.1cqw;height:40cqw"></div></div>'; };
+
+  COVER[11] = function(){ return '<div class="c O"><div class="ci" style="gap:3cqw">'+img('pillAsme','width:74cqw;border-radius:2.4cqw;align-self:flex-start')+
+    '<div class="hd" style="--s:12cqw;display:flex;align-items:center;gap:2cqw;margin-top:2cqw">Linked<span class="li">in</span></div>'+
+    '<div class="hd" style="--s:8.4cqw"><span class="hi">OPTIMIZATION</span></div>'+
+    '<div class="hd" style="--s:10.4cqw;font-style:italic;font-weight:600">Workshop</div>'+
+    '<div class="wrapr" style="margin-top:auto"><span class="cp f">29 OCT</span><span class="cp o">3–6 PM</span><span class="cp o">SEMINAR HALL 99</span><span class="cp f">FREE ENTRY</span></div></div></div>'; };
+
+  COVER[12] = function(){ return '<div class="c K">'+img('ph12','left:0;top:0;width:100cqw;height:70cqw;object-position:50% 38%','pic')+
+    '<div class="abs" style="z-index:1;left:0;right:0;top:42cqw;height:29cqw;background:linear-gradient(to bottom,rgba(19,13,7,0),var(--K))"></div>'+
+    '<div class="ci"><div class="row"><span class="tg" style="background:rgba(19,13,7,.65);color:#fff">Recap</span></div>'+
+    '<div style="margin-top:auto"><div class="hd" style="--s:10cqw">THE MOMENTS <span class="hi">CONTINUE</span></div>'+
+    '<div class="sm acc" style="--s:4.2cqw;font-weight:700;margin-top:2cqw">Build Your First AI Agent</div>'+
+    '<div class="wrapr" style="margin-top:3cqw"><span class="cp o">Venue partner: Colabs</span></div></div></div></div>'; };
+
+  COVER[13] = function(){ return '<div class="c O">'+img('ph13','left:0;top:0;width:100cqw;height:68cqw','pic')+
+    '<div class="ci"><div class="row"><span class="tg fl">Recap</span></div>'+
+    '<div style="margin-top:auto"><div class="hd" style="--s:14cqw">THANK YOU</div>'+
+    '<div class="hd" style="--s:6.2cqw;margin-top:2cqw"><span class="ul">Build Your First AI Agent</span></div>'+
+    '<div class="wrapr" style="margin-top:3cqw"><span class="cp f">Venue partner: Colabs</span></div></div></div></div>'; };
+
+  COVER[14] = function(){ return '<div class="c K"><div class="abs" style="z-index:0;left:8cqw;bottom:30cqw;width:42cqw;height:42cqw;border-radius:50%;background:var(--O)"></div>'+
+    '<div class="tph ph-robot" style="left:1cqw;bottom:27cqw;width:52cqw;height:53.1cqw"></div>'+
+    '<div class="p3"><div>'+S('bolt')+'<span>Automate tasks</span></div><div>'+S('clock')+'<span>Save time</span></div><div>'+S('trend')+'<span>Work smarter</span></div></div>'+
+    '<div class="ci" style="gap:2cqw"><div class="row">'+img('logoDark','','lgo')+'<span class="tg acc">Workshop</span></div>'+
+    '<div style="text-align:center;margin-top:3cqw"><div class="hd" style="--s:6cqw">BUILD YOUR FIRST</div><div class="hd" style="--s:14cqw;margin-top:1.6cqw"><span class="hb">AI</span> AGENT</div></div>'+
+    '<div class="cells"><div><small>DATE</small>4th October</div><div><small>TIME</small>2:45 – 6:00 PM</div><div><small>VENUE</small>Colabs DHA</div></div></div></div>'; };
+
+  COVER[15] = function(){ return '<div class="c W"><div class="ci" style="gap:3cqw"><div class="row">'+img('alkhidmat','height:11cqw;border-radius:1cqw')+img('kysWord','height:10cqw')+img('kys','height:7cqw;border-radius:1cqw')+'</div>'+
+    '<span class="tg" style="width:max-content;margin-top:2cqw">On board as</span>'+
+    '<div class="hd" style="--s:9cqw">COLLABORATIVE <span class="hi">PARTNER</span></div>'+
+    '<div class="kcard">'+img('logoLight','height:11cqw')+'</div>'+
+    '<div class="wrapr" style="margin-top:auto"><span class="cp f">29 SEP 2026</span><span class="cp o">EXPO CENTRE · HALL 06</span></div></div></div>'; };
+
+  COVER[16] = function(){ return '<div class="c K"><div class="ci" style="gap:3cqw">'+img('logoDark','','lgo')+
+    '<div style="text-align:center;margin-top:3cqw"><div class="sm" style="--s:7cqw;font-weight:400">REBRANDING?</div><div class="hd" style="--s:14.6cqw;margin-top:1cqw">RE<span class="acc">BRAND</span>ED!</div></div>'+
+    '<div class="swap">'+img('oldLogo','width:26cqw;height:auto;display:block')+'<span class="arr">'+'<svg viewBox="0 0 24 12" aria-hidden="true"><use href="#i-arrow"/></svg></span><svg class="nm" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mark"/></svg></div>'+
+    '<div class="hd" style="--s:5.6cqw;text-align:center">SAME <span class="acc">ENERGY</span>, NEW <span class="acc">LOOK</span>!</div>'+
+    '<div class="btn o">JOIN OUR COMMUNITY!</div></div></div>'; };
+
+  COVER[17] = function(){ return '<div class="c W">'+img('ph17','left:0;top:0;width:100cqw;height:76cqw;object-position:50% 20%','pic')+
+    '<div class="ci"><div style="margin-top:auto"><div class="sm" style="--s:4cqw;letter-spacing:.32em;font-weight:700">BEYOND</div>'+
+    '<div class="hd" style="--s:15cqw;margin-top:.6cqw"><span class="hi">CHATGPT</span></div>'+
+    '<div class="sm" style="--s:3.1cqw;margin-top:2.4cqw;font-weight:500">Arts &amp; Culture Society × AI Baithak<br>University of Karachi</div></div></div></div>'; };
+
+  COVER[18] = function(){ return '<div class="c O">'+img('ph18','left:0;top:0;width:100cqw;height:70cqw;object-position:50% 30%','pic')+
+    '<div class="ci"><div class="row"><span class="tg fl">Swipe</span></div>'+
+    '<div style="margin-top:auto"><div class="hd" style="--s:11cqw">THE AUDIENCE</div><div class="hd" style="--s:6cqw;margin-top:2cqw"><span class="ul">Beyond ChatGPT</span></div></div></div></div>'; };
+
+  COVER[19] = function(){ return '<div class="c O"><div class="abs" style="z-index:1;right:6cqw;bottom:6cqw;width:50cqw;height:76cqw;border-radius:25cqw 25cqw 3cqw 3cqw;overflow:hidden">'+img('ph19','left:0;top:0;width:100%;height:100%;object-position:38% 30%','pic')+'</div>'+
+    '<div class="ci"><div class="row"><span class="tg fl">Recap</span></div>'+
+    '<div class="hd" style="--s:10.6cqw;margin-top:8cqw;max-width:38cqw">THANK YOU</div>'+
+    '<div class="hd" style="--s:5.4cqw;margin-top:3cqw;max-width:38cqw;line-height:1.3"><span class="ul">Beyond ChatGPT</span></div>'+
+    '<div class="sm" style="--s:3cqw;margin-top:auto;max-width:38cqw;font-weight:600">Arts &amp; Culture Society × AI Baithak</div></div></div>'; };
+
+  COVER[20] = function(){ return '<div class="c K"><div class="ci" style="gap:3.6cqw">'+img('whiteRow','width:86cqw;height:auto;align-self:center')+
+    '<div class="hd" style="--s:11cqw;text-align:center;margin-top:2cqw">CHECK <span class="acc">YOUR</span> MAIL</div>'+
+    '<div class="mailc"><div class="env">'+S('mail')+'</div><b>Your confirmation email is your entry pass.</b>Only shortlisted participants will be allowed in.</div>'+
+    '<div class="wrapr" style="margin-top:auto"><span class="cp o acc">3 SEP · 10 AM – 4:30 PM</span><span class="cp o">KU Auditorium</span></div></div></div>'; };
+
+  var P = [
+    {n:1,  date:'17 Sep 2026', type:'Team',         look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DdZcRG9Do0w/', likes:94, com:17, pin:1, logos:'Your logo, leaders photo',
+      h:'Leadership Council introduction',
+      says:'Introduces the four leaders behind the community: Kamran Sikandar (Founder and Executive Director), Talha Siddiqui (Growth and Strategic Partner), Abdullah Iqbal (Technical Director) and Mahmood Ahmad (Managing Director). Ends by asking which AI project or bot people want to ship next.'},
+    {n:2,  date:'5 Aug 2026',  type:'Reel',         look:'photo', by:'ai_baithak', href:'/ai_baithak/reel/Dbp_6_UiZvr/', likes:92, com:26, pin:1, logos:'Your logo',
+      h:'Reel: how to join AI Baithak',
+      says:'Answers the question people ask most. Step one, fill the form from the bio. Step two, join the WhatsApp community from the bio. Step three, get every upcoming event, walk, session and meetup there.'},
+    {n:3,  date:'15 Nov 2026', type:'Event',        look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DfxI3HdinMj/', likes:46, com:7, logos:'AI Baithak × Amal Academy',
+      h:'Mega Project Presentation invite',
+      says:'Invites learners to the Amal Academy Mega Project Presentation on Saturday 21 November 2026, 9:00 AM to 1:00 PM at NED University, Karachi. Alumni show their projects, and AI Baithak is the Outreach Partner.'},
+    {n:4,  date:'15 Nov 2026', type:'Partnership',  look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DfwsqSbO7gX/', likes:42, com:8, logos:'AI Baithak × Amal Academy',
+      h:'Amal Academy partnership',
+      says:'Announces the collaboration with Amal Academy Batch 383 as Outreach Partner. The message is that learning means more when people come together. Tagline: Learn Together. Build Together.'},
+    {n:5,  date:'14 Nov 2026', type:'Meme',         look:'brand', by:'ai_baithak', href:'/ai_baithak/p/Dfuj8FdOwJw/', likes:38, com:22, logos:'Your logo',
+      h:'Jensen Huang meme',
+      says:'A joke post imagining Jensen Huang leaving NVIDIA to join the community. It is written to start a conversation, and it drew 22 comments. The cover keeps the like and comment counters from the poster.'},
+    {n:6,  date:'13 Nov 2026', type:'Spotlight',    look:'brand', by:'ai_baithak', href:'/ai_baithak/p/Dfrkt_qR_eF/', likes:65, com:20, logos:'Your logo, Maryam cut-out',
+      h:'Maryam Fatima Asad spotlight',
+      says:'Spotlights Maryam Fatima Asad, who leads the female volunteer team. She is praised for guiding the team, inspiring collaboration and making sure every effort counts.'},
+    {n:7,  date:'8 Nov 2026',  type:'Partner post', look:'red', by:'freelancingsocietyiu', href:'/freelancingsocietyiu/p/DffHARTOZYY/', likes:null, com:null, logos:'AI Baithak × Freelancing Fest, Iqra University',
+      h:'Freelancing Fest: win-win',
+      says:'Freelancing Fest IU shows what every participant gets: a certificate, real-world exposure and a chance at cash prizes. It runs 11 and 12 November at Iqra University, EDC Campus, Karachi. Registration is by QR code or the link in bio.'},
+    {n:8,  date:'30 Oct 2026', type:'Partner post', look:'red', by:'iu_spectrum', href:'/iu_spectrum/p/DfHgNWEO_Z2/', likes:null, com:null, logos:'AI Baithak × IU Spectrum 2.0, Iqra University',
+      h:'IU Spectrum outreach partner',
+      says:'IU Spectrum welcomes AI Baithak as Outreach Partner for Freelance Fest, part of IU Spectrum 2.0. A promo code gives 20% off registration for the 11 to 12 November event at Iqra University.'},
+    {n:9,  date:'28 Oct 2026', type:'Recruitment',  look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DfCmOu4uhYI/', likes:57, com:21, logos:'Your logo',
+      h:'Core teams recruitment',
+      says:'Opens applications for six volunteer teams: Content Shooting, Event and Operations, Marketing, Creative and Design, Social Media and Video Editing. In person in Karachi, no joining fee, apply on the website.'},
+    {n:10, date:'27 Oct 2026', type:'Meme',         look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DfAObeIupmS/', likes:73, com:46, logos:'Your logo, two cut-outs',
+      h:'Zaryab and Abu Bakr meme',
+      says:'A community meme. Zaryab wants a place on the team and Abu Bakar has no problem with it, so the post asks whether the community should make it happen. It got the most comments of the 20 (46).'},
+    {n:11, date:'26 Oct 2026', type:'Workshop',     look:'blue', by:'asmeszabist', href:'/asmeszabist/p/De9YQV5IXgp/', likes:63, com:12, logos:'AI Baithak | SFSDC (SZABIST)',
+      h:'LinkedIn Optimization Workshop',
+      says:'ASME SZABIST and AI Baithak present a hands-on LinkedIn profile workshop on Thursday 29 October, 3:00 to 6:00 PM in Seminar Hall 99. It includes interactive activities and an e-certificate, with free entry.'},
+    {n:12, date:'8 Oct 2026',  type:'Recap',        look:'photo', by:'ai_baithak', href:'/ai_baithak/p/DeOzmUyjnuh/', likes:76, com:3, logos:'Real event photo',
+      h:'Build Your First AI Agent recap',
+      says:'More photos from the Build Your First AI Agent session, thanking everyone who came. Credits the venue partner Colabs and the photographer.'},
+    {n:13, date:'5 Oct 2026',  type:'Recap',        look:'photo', by:'ai_baithak', href:'/ai_baithak/p/DeHxMkBDiZk/', likes:148, com:17, logos:'Real group photo',
+      h:'Thank you, Build Your First AI Agent',
+      says:'A thank-you with a group photo for everyone who joined the session, on how AI agents work and how they automate tasks. Thanks again to Colabs and the photographer. 148 likes, the most on your own account in this set.'},
+    {n:14, date:'30 Sep 2026', type:'Workshop',     look:'brand', by:'ai_baithak', href:'/ai_baithak/p/Dd63zIEuBgT/', likes:40, com:5, logos:'Your logo, robot',
+      h:'Build Your First AI Agent poster',
+      says:'Promotes the hands-on session on 4 October, 2:45 to 6:00 PM at Colabs DHA. The pitch is to move from using AI to building with AI and leave with your first AI agent.'},
+    {n:15, date:'28 Sep 2026', type:'Event',        look:'teal', by:'ai_baithak', href:'/ai_baithak/p/Dd0ypqWDkSI/', likes:128, com:18, logos:'Alkhidmat, Karachi Youth Summit, AI Baithak',
+      h:'Karachi Youth Summit partnership',
+      says:'AI Baithak joins Karachi Youth Summit 2026 as a Collaborative Partner. The summit is on 29 September at Expo Centre Karachi, Hall 06, with free entry. Theme: Born to Lead.'},
+    {n:16, date:'9 Sep 2026',  type:'Announcement', look:'brand', by:'ai_baithak', href:'/ai_baithak/p/DdEsMEoiA0r/', likes:72, com:37, logos:'Old and new AI Baithak logos',
+      h:'Rebrand announcement',
+      says:'Introduces the new AI Baithak identity. Same community-driven energy, a fresh look and a bigger vision for the AI community in Karachi.'},
+    {n:17, date:'7 Sep 2026',  type:'Partner post', look:'photo', by:'uok_acs', href:'/uok_acs/p/DdBGYjvDLdx/', likes:128, com:15, logos:'Arts & Culture Society, AI Baithak (in the photo)',
+      h:'Beyond ChatGPT workshop',
+      says:'The University of Karachi Arts and Culture Society describes Beyond ChatGPT, an AI workshop held with AI Baithak. It names the speakers and host and covers AI tools, automation, creativity and the future of work.'},
+    {n:18, date:'7 Sep 2026',  type:'Partner post', look:'photo', by:'uok_acs', href:'/uok_acs/p/Dc-xT-4DG2U/', likes:264, com:8, logos:'Society logos (in the photo)',
+      h:'Beyond ChatGPT audience photos',
+      says:'A photo carousel of the students who filled the room at Beyond ChatGPT. It has the most likes of the 20 posts (264).'},
+    {n:19, date:'4 Sep 2026',  type:'Recap',        look:'photo', by:'ai_baithak', href:'/ai_baithak/p/Dc38HuwjtXn/', likes:206, com:37, logos:'Arts & Culture Society × AI Baithak',
+      h:'Thank you, Beyond ChatGPT',
+      says:'Thanks everyone who joined Beyond ChatGPT for their presence, energy and curiosity. 206 likes and 37 comments.'},
+    {n:20, date:'1 Sep 2026',  type:'Event update', look:'purple', by:'ai_baithak', href:'/ai_baithak/p/DcwWOt3uXiO/', likes:54, com:1, logos:'University of Karachi, Arts & Culture Society, AI Baithak, SAO',
+      h:'Beyond ChatGPT confirmation emails',
+      says:'Confirmation emails have gone to shortlisted candidates for Beyond ChatGPT. The email is the entry pass, and only shortlisted people get in. The event is 3 September, 10:00 AM to 4:30 PM at the Chinese Teacher Memorial Auditorium, University of Karachi.'}
+  ];
+  var LOOK = {brand:'Your colors', red:'Red and black', blue:'Blue and white', teal:'Teal and white', purple:'Purple and white', photo:'Photo'};
+
+  function cover(p){ return COVER[p.n](); }
+  function tileOld(p, i){ return '<div class="old"><img src="'+NOW[i]+'" alt="Current thumbnail of post '+p.n+'"></div>'; }
+
+  var HL = [['Achievements','trophy','cK'],['Session 6','6','cO'],["KYS '26",'KYS','cW'],['ACS x Ai baithak','ACS','cK'],['Session 5','5','cO'],['Session 4','4','cW'],['Session 3','3','cK']];
+  function hls(isNew){
+    return HL.map(function(h){
+      var inner;
+      if (!isNew) inner = '<div class="hc old"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mark"/></svg></div>';
+      else if (h[1] === 'trophy') inner = '<div class="hc '+h[2]+'"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-trophy"/></svg></div>';
+      else inner = '<div class="hc '+h[2]+'">'+h[1]+'</div>';
+      return '<div class="hl">'+inner+'<span>'+h[0]+'</span></div>';
+    }).join('');
+  }
+  function phone(isNew){
+    var tiles = P.map(function(p,i){ return isNew ? cover(p) : tileOld(p,i); }).join('');
+    return '<div class="col"><div class="phone">'+
+      '<div class="ptop"><span>ai_baithak</span><span>•••</span></div>'+
+      '<div class="prof"><div class="av"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mark"/></svg></div><div class="stats"><div><b>57</b><span>posts</span></div><div><b>2,153</b><span>followers</span></div><div><b>4</b><span>following</span></div></div></div>'+
+      '<div class="bio"><b>AI Baithak | Pakistan</b><span class="cat">Community</span><br>Pakistan’s AI community For everyone<br>We don’t just learn AI. We build with it.<br>2 sessions a month. Real projects. Real…<br><a href="https://linktr.ee/aibaithak" target="_blank" rel="noopener">linktr.ee/aibaithak</a></div>'+
+      '<div class="btns"><span>Following</span><span>Message</span></div>'+
+      '<div class="hls">'+hls(isNew)+'</div>'+
+      '<div class="tabs"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-grid"/></svg></div>'+
+      '<div class="g">'+tiles+'</div></div>'+
+      '<div class="cap">'+(isNew ? 'With the new covers<small>One look, black, white and orange</small>' : 'Now<small>Your first 20 posts, as they are</small>')+'</div></div>';
+  }
+  document.getElementById('phones').innerHTML = phone(false) + phone(true);
+
+  var brand = P.filter(function(p){return p.look==='brand';}).length;
+  var photos = P.filter(function(p){return p.look==='photo';}).length;
+  var other = P.length - brand - photos;
+  document.getElementById('stats').innerHTML =
+    '<div class="sx"><b>'+brand+'</b><p>posts already in your black and orange look</p></div>'+
+    '<div class="sx"><b>'+other+'</b><p>posters in a partner’s own colors: red, blue, teal and purple</p></div>'+
+    '<div class="sx"><b>'+photos+'</b><p>photo posts and reels with no brand color in the thumbnail</p></div>';
+  document.getElementById('read').innerHTML =
+    '<p>Eleven of the 20 thumbnails break the black and orange rhythm, and partner content drives most of it. Five posts come from partner accounts in their own designs, and two more are partner posters you posted yourself.</p>'+
+    '<p>The covers fix this by keeping each post’s own facts but redrawing them in your style. Partner posts keep their logos beside yours, so the collaboration is still clear at a glance.</p>';
+
+  document.getElementById('plist').innerHTML = P.map(function(p){
+    var num = (p.n < 10 ? '0' : '') + p.n;
+    var stat = p.likes === null ? 'Likes not available' : (p.likes + ' likes · ' + p.com + ' comments');
+    var off = p.look !== 'brand';
+    var cv = cover(p);
+    return '<article class="pc"><div class="th">'+cv+'</div><div class="pb">'+
+      '<div class="pm"><span class="n">'+num+'</span><span>'+p.type+'</span><span>'+p.date+'</span>'+(p.pin?'<span>Pinned</span>':'')+'</div>'+
+      '<h3>'+p.h+'</h3><p>'+p.says+'</p>'+
+      '<div class="chips"><span class="cpx'+(off?' off':'')+'">Now: '+LOOK[p.look]+'</span><span class="cpx">by @'+p.by+'</span><span class="cpx">'+stat+'</span></div>'+
+      '<div class="chips"><span class="cpx">On the cover: '+p.logos+'</span></div>'+
+      '<a class="open" href="https://www.instagram.com'+p.href+'" target="_blank" rel="noopener">Open post ↗</a></div></article>';
+  }).join('');
+})();
+</script>
