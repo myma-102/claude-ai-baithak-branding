@@ -1,4 +1,4 @@
-D = r"C:/Users/myma/AppData/Local/Temp/claude/97f6e422c1775293/bc9452eb-aa13-4f93-8276-f0deca776c69/scratchpad/"
+import os; D = os.path.dirname(os.path.abspath(__file__)) + "/"
 src = open(D + "ai-baithak-grid2.html", encoding="utf-8").read()
 css = open(D + "cut/ph.css", encoding="utf-8").read() + "\n" + open(D + "cut/leaders.css", encoding="utf-8").read()
 js = open(D + "cut/now.js", encoding="utf-8").read() + open(D + "cut/assets.js", encoding="utf-8").read()

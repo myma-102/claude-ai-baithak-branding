@@ -1,4 +1,4 @@
-D = r"C:/Users/myma/AppData/Local/Temp/claude/97f6e422c1775293/bc9452eb-aa13-4f93-8276-f0deca776c69/scratchpad/"
+import os; D = os.path.dirname(os.path.abspath(__file__)) + "/"
 src = open(D + "ai-baithak-grid.html", encoding="utf-8").read()
 css = open(D + "cut/ph.css", encoding="utf-8").read() + "\n" + open(D + "cut/leaders.css", encoding="utf-8").read()
 assert "/*__PH_CSS__*/" in src and "/*__NOW_JS__*/" in src

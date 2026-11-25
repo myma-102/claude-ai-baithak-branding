@@ -15,7 +15,7 @@ Palette options, a feed look and per-post grid covers for the AI Baithak Instagr
 - `work/` page sources, build scripts and generated pages.
   - `*.html` without `-built` or `-preview` are the sources. They contain markers (`/*__PH_CSS__*/`, `/*__JS_DATA__*/`) where the build scripts inject images as base64.
   - `*-built.html` is what was published. `*-preview.html` is the same page wrapped in a document skeleton for local viewing.
-  - `build.py`, `build_grid.py`, `build_grid2.py`, `make_light.py`, `make_calm.py` generate the built pages. They use absolute Windows paths near the top, so change `D = ...` to this folder first.
+  - `build.py`, `build_grid.py`, `build_grid2.py`, `make_light.py`, `make_calm.py` generate the built pages. They resolve `D` from their own location, so run them from anywhere with `python3 work/<script>.py`.
   - `matte.py`, `robot.py` cut the people and the robot out of screenshots with a flood fill from the background.
   - `cut/` cut-outs, logos and the base64 asset files the build scripts read.
   - `crops/`, `hires/`, `shots/` raw screenshots and crops from the Instagram profile and the posts.

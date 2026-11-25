@@ -1,6 +1,6 @@
 import json, re
 
-D = r"C:/Users/myma/AppData/Local/Temp/claude/97f6e422c1775293/bc9452eb-aa13-4f93-8276-f0deca776c69/scratchpad/"
+import os; D = os.path.dirname(os.path.abspath(__file__)) + "/"
 src = open(D + "ai-baithak-palettes.html", encoding="utf-8").read()
 
 def bar(a, b, c):
